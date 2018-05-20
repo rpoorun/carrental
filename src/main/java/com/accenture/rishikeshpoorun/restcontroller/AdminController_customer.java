@@ -15,8 +15,8 @@ import com.accenture.rishikeshpoorun.exceptions.CustomerNotFoundException;
 import com.accenture.rishikeshpoorun.services.admin.CustomerService;
 
 @RestController
-@RequestMapping("/rest")
-public class AdminController {
+@RequestMapping("/rest/customer")
+public class AdminController_customer {
 
 	@Autowired
 	private CustomerService customerService;
