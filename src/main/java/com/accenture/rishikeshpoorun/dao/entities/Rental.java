@@ -29,11 +29,11 @@ public class Rental {
 	private boolean returned;
 	
 	@ManyToOne
-	@JoinColumn(referencedColumnName = "USER_ID")
+	@JoinColumn(name="USER_RENTED_ID")
 	private User user;
 
 	@ManyToOne
-	@JoinColumn(referencedColumnName = "CAR_ID")
+	@JoinColumn(name="CAR_RENTED_ID")
 	private Car car;
 
 

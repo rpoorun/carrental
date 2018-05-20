@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -33,7 +34,7 @@ public class User {
 	@Column(name="DATE_OF_BIRTH")
 	private Date dob;
 	
-	@OneToMany 
+	@OneToMany (targetEntity=Rental.class, mappedBy="user", fetch=FetchType.EAGER)
 	private List<Rental> rentals;
 
 	public List<Rental> getRentals() {

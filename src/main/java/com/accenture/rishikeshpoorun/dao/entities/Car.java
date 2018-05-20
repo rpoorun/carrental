@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -24,12 +25,12 @@ public class Car {
 	private String registrationNumber;
 	
 	@Column(name="CAR_MODEL")
-	private String Model;
+	private String model;
 	
 	@Column(name="PRICE_PER_DAY")
 	private Double pricePerDay;
 	
-	@OneToMany
+	@OneToMany(targetEntity=Rental.class , mappedBy="car", fetch=FetchType.EAGER)
 	private List<Rental> rentals;
 
 	@JsonIgnore
@@ -58,11 +59,11 @@ public class Car {
 	}
 
 	public String getModel() {
-		return Model;
+		return model;
 	}
 
 	public void setModel(String model) {
-		Model = model;
+		this.model = model;
 	}
 
 	public Double getPricePerDay() {
