@@ -16,7 +16,8 @@ public class ReadFileUtil {
 	
 	public static List<Car> readCSVToCar() throws FileNotFoundException, IOException{
 		List<Car> list = new ArrayList<>();
-		FileReader file = new FileReader("cars.csv");
+		
+		FileReader file = new FileReader("/Users/rishikesh.poorun/OneDrive - Accenture/Spring Boot Project/carrental/src/main/resources/files/cars.csv");
 		BufferedReader br = new BufferedReader(file);
 		String line = null;
 		while((line = br.readLine()) != null) {

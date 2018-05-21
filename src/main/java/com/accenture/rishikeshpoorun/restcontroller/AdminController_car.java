@@ -1,5 +1,7 @@
 package com.accenture.rishikeshpoorun.restcontroller;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +88,20 @@ public class AdminController_car {
 	public List<Car> showAllCar() {
 
 		return carService.getAllCars();
+	}
+	
+	@GetMapping("/readcsv")
+	public List<Car> readCSVToCar(){
+		
+		List<Car> list = new ArrayList<>();
+		
+		try {
+			list = carService.readCSVToCar();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 }

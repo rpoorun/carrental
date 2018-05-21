@@ -1,5 +1,7 @@
 package com.accenture.rishikeshpoorun.services;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.accenture.rishikeshpoorun.dao.entities.Car;
 import com.accenture.rishikeshpoorun.dao.repositories.CarRepo;
 import com.accenture.rishikeshpoorun.exceptions.CarNotFoundException;
+import com.accenture.rishikeshpoorun.util.ReadFileUtil;
 
 @Service
 @Transactional
@@ -89,5 +92,8 @@ public class CarService {
 	}
 	
 	
-	
+	public List<Car> readCSVToCar() throws FileNotFoundException, IOException	{
+		
+		return ReadFileUtil.readCSVToCar();
+	}
 }
