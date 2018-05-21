@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.accenture.rishikeshpoorun.dao.entities.Car;
 import com.accenture.rishikeshpoorun.exceptions.CarNotFoundException;
-import com.accenture.rishikeshpoorun.services.admin.CarService;
+import com.accenture.rishikeshpoorun.services.CarService;
 
 @RestController
 @RequestMapping("/rest/car")

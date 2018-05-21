@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.accenture.rishikeshpoorun.dao.entities.User;
 import com.accenture.rishikeshpoorun.exceptions.CustomerNotFoundException;
-import com.accenture.rishikeshpoorun.services.admin.CustomerService;
+import com.accenture.rishikeshpoorun.services.CustomerService;
 
 @RestController
 @RequestMapping("/rest/customer")

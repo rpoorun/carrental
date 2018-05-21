@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.accenture.rishikeshpoorun.dao.entities.Car;
 import com.accenture.rishikeshpoorun.dao.entities.Rental;
 import com.accenture.rishikeshpoorun.dao.entities.User;
-import com.accenture.rishikeshpoorun.services.admin.RentalService;
+import com.accenture.rishikeshpoorun.services.RentalService;
 
 @RestController
 @RequestMapping("/rest/rental")

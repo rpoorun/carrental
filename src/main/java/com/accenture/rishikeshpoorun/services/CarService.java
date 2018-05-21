@@ -1,4 +1,4 @@
-package com.accenture.rishikeshpoorun.services.admin;
+package com.accenture.rishikeshpoorun.services;
 
 import java.util.ArrayList;
 import java.util.List;
