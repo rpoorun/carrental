@@ -1,6 +1,6 @@
 package com.accenture.rishikeshpoorun.dao.entities;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,10 +20,10 @@ public class Rental {
 	private Long rentalId;
 
 	@Column(name = "START_DATE")
-	private Date startDate;
+	private LocalDate startDate;
 
 	@Column(name = "END_DATE")
-	private Date endDate;
+	private LocalDate endDate;
 
 	@Column(name = "RETURNED")
 	private boolean returned;
@@ -45,19 +45,19 @@ public class Rental {
 		this.rentalId = rentalId;
 	}
 
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 
