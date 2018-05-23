@@ -58,13 +58,12 @@ public class AdminController_customer {
 		}
 
 	}
-	
-	
+
 	@DeleteMapping
 	public String deleteCustomer(@RequestBody User customer) {
-		
+
 		boolean status;
-		
+
 		try {
 			status = customerService.deleteCustomer(customer.getNationalId());
 			if (status) {
@@ -81,12 +80,42 @@ public class AdminController_customer {
 			return "Failed to delete the customer profile!";
 		}
 	}
-	
-	
+
 	@GetMapping("/all")
-	public List<User> showAllCustomer(){
-		
+	public List<User> showAllCustomer() {
+
 		return customerService.getAllCustomer();
 	}
+
+	@PostMapping("/find")
+	public Object findUser(@RequestBody User u) {
+
+		if (u.getNationalId() != null) {
+
+			try {
+				return customerService.findByNationalId(u.getNationalId());
+			} catch (CustomerNotFoundException e) {
+				// TODO Auto-generated catch block
+				// e.printStackTrace();
+				return e.getMessage();
+			}
+		} else if (u.getUserId() != null) {
+
+			try {
+				return customerService.findById(u.getUserId());
+			} catch (CustomerNotFoundException e) {
+				// TODO Auto-generated catch block
+				// e.printStackTrace();
+				return e.getMessage();
+			}
+		}
+		else {
+			
+			return "Cannot find Customer details!";
+		}
+	}
+	
+	
+	
 
 }

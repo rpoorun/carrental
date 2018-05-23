@@ -62,13 +62,13 @@ public class CustomerService {
 	
 	public User findById(Long userId) throws CustomerNotFoundException {
 		
-		User customer = userRepo.findById(userId).get();
 		
-		if( customer == null) {
-			throw new CustomerNotFoundException("Cannot find customer of specified National ID");
+		
+		if(!userRepo.existsById(userId)) {
+			throw new CustomerNotFoundException("Cannot find customer of specified User ID");
 		}
 		
-		return customer;
+		return userRepo.findById(userId).get();
 		
 		
 	}

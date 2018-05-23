@@ -9,7 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "RENTAL_TABLE")
@@ -69,9 +68,17 @@ public class Rental {
 		this.returned = returned;
 	}
 
-	@JsonIgnore
+	//@JsonIgnore
 	public User getUser() {
-		return user;
+		User utest = new User();
+		utest.setDob(user.getDob());
+		utest.setNationalId(user.getNationalId());
+		utest.setPassword(user.getPassword());
+		utest.setRole(user.getRole());
+		utest.setSex(user.getSex());
+		utest.setUserId(user.getUserId());
+		
+		return utest;
 	}
 
 	public void setUser(User user) {
