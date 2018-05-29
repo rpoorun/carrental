@@ -24,7 +24,7 @@ public class AdminController_car {
 	private CarService carService;
 
 	@PostMapping("/add")
-	public String createCustomer(@RequestBody Car car) {
+	public String createCar(@RequestBody Car car) {
 
 		boolean status = carService.createCar(car);
 
@@ -39,7 +39,7 @@ public class AdminController_car {
 	}
 
 	@PostMapping("/update")
-	public String updateCustomer(@RequestBody Car car) {
+	public String updateCar(@RequestBody Car car) {
 
 		boolean status;
 		try {
@@ -62,7 +62,7 @@ public class AdminController_car {
 	}
 
 	@DeleteMapping
-	public String deleteCustomer(@RequestBody Car car) {
+	public String deleteCar(@RequestBody Car car) {
 
 		boolean status;
 
@@ -96,7 +96,8 @@ public class AdminController_car {
 		List<Car> list = new ArrayList<>();
 		
 		try {
-			list = carService.readCSVToCar();
+			String fileName = "/Users/rishikesh.poorun/OneDrive - Accenture/Spring Boot Project/carrental/src/main/resources/files/cars.csv";
+			list = carService.readCSVToCar(fileName);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

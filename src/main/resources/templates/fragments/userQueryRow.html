@@ -1,0 +1,44 @@
+<tr th:fragment="user-query-row">
+        <form method="post" th:action="@{/secured/user/find}" th:object="${user}">
+          <td><input type="text" class="form-control" th:field="*{nationalId}" id="nationalId" list="nic" placeholder="User National ID" />
+          		<datalist id="nic">
+          			<th:block th:each ="user: ${userlist}">
+          			<option th:value ="${user.nationalId}"/>
+          			</th:block>
+          		</datalist>
+          </td>
+           <td><input type="text" class="form-control" th:field="*{name}" id="name" list="names" placeholder="User Name" />
+           		<datalist id="names">
+          			<th:block th:each ="user: ${userlist}">
+          			<option th:value ="${user.name}"/>
+          			</th:block>
+          		</datalist>
+          		</td>
+           <td><input type="text" class="form-control" th:field="*{sex}" id="sex" list="genders" placeholder="Gender"  />
+           		<datalist id="genders">
+          			<option value="MALE">MALE</option>
+          			<option value ="FEMALE">Female</option>
+          			</th:block>
+          		</datalist>
+          		</td>
+          		 <td><input type="date" class="form-control" th:field="*{dob}" id="dob" list="dobs" placeholder="Date of Birth"  />
+           		<datalist id="dobs">
+          			<th:block th:each ="user: ${userlist}">
+          			<option th:value ="${user.dob}"/>
+          			</th:block>
+          		</datalist>
+          		</td>
+          		 <td><input type="text" class="form-control" th:field="*{role}" id="role" list="roles" placeholder="Role"  />
+           		<datalist id="roles">
+          			<option value="CUSTOMER">Customer</option>
+          			<option value="ADMIN">Admin</option>
+          			</th:block>
+          		</datalist>
+          		</td>
+          		
+           <td>
+               <button type="submit" class="btn btn-primary col-sm-14">Search</button>
+            </td>
+        
+        </form>
+        </tr>

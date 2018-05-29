@@ -6,12 +6,7 @@
     <!-- Include header, including javascript and CSS files. -->
     <div th:replace="fragments/header :: header-head"/>
 
-    <!-- Additional script -->
-    <script>
-        function count() {
-            $.get('employee/countByName/' + $('#name').val(), function( data ){alert(data);});
-        }
-    </script>
+    
 </head>
 <body>
 <!-- Include navigation bar in the page. -->
@@ -19,52 +14,70 @@
 
 <!-- Page content -->
 <div class="container mt-4">
-    <h3 class="text-primary">Rent a Car Now!
-       <!--  <span class="badge badge-primary" th:text="${#lists.size(employees)}">0</span>
- -->
-        <!-- Display Add button only for admin users -->
-        <a sec:authorize="hasRole('CUSTOMER')"
-                role="button" class="btn btn-outline-primary"
-                href="/rent/">Add</a>
-    </h3>
+    <h1> Home Page Test</h1>
+    <h3 class="text-primary">Car Rental ltd</h3>
+    
+    
+    <!-- Page Content -->
+    <div class="container">
 
-    <!-- Car table -->
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">Registration Number</th>
-            <th scope="col">Model</th>
-            <th scope="col">Rental Rate</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="car : ${carlist}">
-            <th scope="row" th:text="${car.registrationNumber}">Registration Number</th>
-            <td th:text="${car.model}">Model</td>
-            <td th:text="${car.pricePerDay}">Rental Rate</td>
-            <td class="text-right" sec:authorize="hasRole('ADMIN')">
-                <a role="button" class="btn btn-outline-primary" th:href="'/secured/read/'+${car.carId}">View</a>
-                <a role="button" class="btn btn-outline-primary" th:href="'/secured/update/'+${car.carId}">Edit</a>
-                <a role="button" class="btn btn-outline-primary" th:href="'/secured/delete/'+${car.carId}">Delete</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-    <!-- Count by name form -->
-    <!-- <div class="container mt-4">
-        <h4 class="text-primary">Count by name</h4>
-
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" name="name" id="name"/>
+      <!-- Content Row -->
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h3 class="card-header">Browse</h3>
+            <div class="card-body">
+              <div class="display-4">Guest</div>
+              <div class="font-italic">View gallery</div>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Line 1</li>
+              <li class="list-group-item">Line 2</li>
+              <li class="list-group-item">Line 3</li>
+              <li class="list-group-item">
+                <a href="#" class="btn btn-primary">Visit</a>
+              </li>
+            </ul>
+          </div>
         </div>
-
-        <div class="text-center">
-            <button class="btn btn-primary col-sm-3" onclick="count()">Count</button>
+        <div class="col-lg-4 mb-4">
+          <div class="card card-outline-primary h-100">
+            <h3 class="card-header bg-primary text-white">Rent Now</h3>
+            <div class="card-body">
+              <div class="display-4">Customer</div>
+              <div class="font-italic">Access Only</div>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Line 1</li>
+              <li class="list-group-item">Line 2>
+              <li class="list-group-item">Line 3</li>
+              <li class="list-group-item">
+                <a href="/rent" class="btn btn-primary">Sign In!</a>
+              </li>
+            </ul>
+          </div>
         </div>
-    </div> -->
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h3 class="card-header">Dashboard</h3>
+            <div class="card-body">
+              <div class="display-4">Admin</div>
+              <div class="font-italic">Access Only</div>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Line 1</li>
+              <li class="list-group-item">Line 2</li>
+              <li class="list-group-item">Line 3</li>
+              <li class="list-group-item">
+                <a href="/secured" class="btn btn-primary">Sign In!</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+    
+       
 </div>
 </body>
 </html>

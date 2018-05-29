@@ -299,4 +299,19 @@ public class RentalService {
 		return list;
 	}
 
+	public List<Car> carsRentedByCarId(Long carId) {
+		List<Car> list = new ArrayList<>();
+		List<Rental> rlist = new ArrayList<>();
+
+		Car c = carRepo.findById(carId).get();
+
+		c.getRentals().forEach(rlist::add);
+
+		for (Rental r : rlist) {
+			list.add(r.getCar());
+		}
+
+		return list;
+	}
+
 }

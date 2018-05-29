@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<!-- Namespace for Securty extension for thymeleaf is added enabling the use of sec:authentication and sec:authorize-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <!-- Include header, including javascript and CSS files. -->
+    <div th:replace="fragments/header :: header-head"/>
+
+    
+</head>
+<body>
+<!-- Include navigation bar in the page. -->
+<div th:replace="fragments/header :: header-nav"/>
+
+<!-- Page content -->
+<div class="container mt-4">
+    <h1> Customer Profile</h1>
+    <table class="table">
+    	<tbody>
+    		<tr>
+    			<td>National ID:</td>
+    			<td th:text="${user.nationalId}" style="font-weight: bold;">National ID</td>
+    			<td>Date of Birth:</td>
+    			<td th:text="${user.dob}" style="font-weight: bold;">Date of birth</td>
+    		</tr>
+    		<tr>
+    			<td>Name: </td>
+    			<td th:text="${user.name}" style="font-weight: bold;">Name</td>
+    			<td>Gender: </td>
+    			<td th:text= "${user.sex}" style="font-weight: bold;"> Gender</td>
+    		</tr>
+    		<tr>
+    			<td></td>
+    			<td></td>
+    			<td>Role:</td>
+    			<td th:text="${user.role}" style="font-weight: bold;">Role</td>
+    		</tr>
+    		
+    	</tbody>
+    </table>
+    <p></p>
+    <h3 class="text-primary">List of Rentals</h3>
+       
+    <!-- Rental table -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Rental ID</th>
+            <th scope="col">Car Registration</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Returned</th>
+           
+            <th scope="col" width = "250"></th>
+        </tr>
+        </thead>
+        
+        <tbody>
+        <!-- Rental Search Row -->
+                <tr th:replace="fragments/rentalQueryRow :: rental-query-row"></tr>
+        
+        <!-- User list per row -->
+        <tr th:each="rent : ${rentalList}" >
+       
+            <th scope="row" th:text="${rent.rentalId}">Rental ID</th>
+            <td th:text="">Car Registration</td>
+            <td th:text="${rent.startDate}">Start Date</td>
+            <td th:text="${rent.endDate}">End Date</td>
+            <td th:text="${rent.returned}" >Returned</td>
+            
+            <td class="text-right" sec:authorize="hasRole('ADMIN')">
+                <a role="button" class="btn btn-outline-primary" th:href="'/secured/rent/read/'+${rent.rentalId}">View</a>
+                <a role="button" class="btn btn-outline-primary" th:href="'/secured/rent/update/'+${rent.rentalId}">Edit</a>
+                <a role="button" class="btn btn-outline-primary" th:href="'/secured/rent/delete/'+${rent.rentalId}" onclick="alert('You are about to delet a user entry! Do you wish to proceed?')">Delete</a>
+            </td>
+          
+        </tr>
+        </tbody>
+    </table>
+    
+
+</body>
+</html>

@@ -6,22 +6,27 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
+@Component
 @Entity
 @Table(name="CAR_TABLE")
 public class Car {
 	
 	@Id
 	@Column(name="CAR_ID")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long carId;
 	
-	@Column(name="REGISTRATION_NUMBER")
+	@Column(name="REGISTRATION_NUMBER", unique=true)
 	private String registrationNumber;
 	
 	@Column(name="CAR_MODEL")

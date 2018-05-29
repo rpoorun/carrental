@@ -1,67 +1,93 @@
 <!-- Namespace for Securty extension for thymeleaf is added enabling the use of sec:authentication and sec:authorize-->
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
-    <!--Head section to be included in pages -->
-    <div th:fragment="header-head">
-        <!-- Page title -->
-        <title>Car Rental Ltd</title>
-        <!-- Content type definition -->
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!--Head section to be included in pages -->
+<div th:fragment="header-head">
+	<!-- Page title -->
+	<title>Car Rental Ltd</title>
+	<!-- Content type definition -->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-        <!-- CSS file for styling -->
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-        <!-- Icons library -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" integrity="sha256-BJ/G+e+y7bQdrYkS2RBTyNfBHpA9IuGaPmf9htub5MQ=" crossorigin="anonymous" />
+	<!-- CSS file for styling -->
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+		integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+		crossorigin="anonymous">
+	<!-- Icons library -->
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css"
+		integrity="sha256-BJ/G+e+y7bQdrYkS2RBTyNfBHpA9IuGaPmf9htub5MQ="
+		crossorigin="anonymous" />
 
-        <!-- Javascript libraries -->
-        <!-- JQuery -->
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+	<!-- Javascript libraries -->
+	<!-- JQuery -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+		integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+		crossorigin="anonymous"></script>
 
-        <!-- Bootstrap javascript -->
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-    </div>
+	<!-- Bootstrap javascript -->
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+		integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+		crossorigin="anonymous"></script>
+</div>
 </head>
 
 <body>
-    <div th:fragment="header-nav">
-        <nav class="navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand" href="/">Car Rental</a>
+	<div th:fragment="header-nav">
+		<nav class="navbar navbar-expand navbar-dark bg-dark">
+			<a class="navbar-brand" href="/">Car Rental</a>
 
-            <div class="collapse navbar-collapse" id="navbar">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/index">Home</a>
-                    </li>
-                </ul>
+			<div class="collapse navbar-collapse" id="navbar">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link" href="/index">Home</a></li>
+					<li class="nav-item active"><a class="nav-link" href="/secured"><span sec:authorize="hasRole('ROLE_ADMIN')">Admin Dashboard</span></a></li>
+					<li class="nav-item active"><a class="nav-link" href="/rent"><span sec:authorize="hasRole('ROLE_ADMIN')">Customer Dashboard</span></a></li>
+					<li class="nav-item active"><a class="nav-link" href="/rent"><span sec:authorize="hasRole('ROLE_CUSTOMER')">Customer Dashboard</span></a></li>
+				</ul>
+				
+				
 
-                <ul class="navbar-nav navbar-right mr-2">
-                    <!-- Display user menu only if authenticated -->
-                    <li class="dropdown" sec:authorize="isAuthenticated()">
-                        <a class="dropdown-toggle text-white" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="oi oi-person" title="User" aria-hidden="true"></span>
 
-                            <!-- Display current user name -->
-                            <span sec:authentication="name"></span>
+				<ul class="navbar-nav navbar-right mr-2">
 
-                        </a>
+					<!-- Display user menu only if authenticated -->
+					<li class="dropdown" sec:authorize="isAuthenticated()">
+					<a 	class="dropdown-toggle text-white" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> 
+						<span class="oi oi-person" title="User" aria-hidden="true"></span> 
+						<!-- Display current user name --> 
+						<span sec:authentication="name"></span>
 
-                        <div class="dropdown-menu dropdown-menu-right mt-3" aria-labelledby="userDropdown">
+					</a>
 
-                            <!-- Logout link : Form is used to generate a POST request with CSRF token -->
-                            <a class="dropdown-item" href="javascript: document.logoutForm.submit()">Logout</a>
+						<div class="dropdown-menu dropdown-menu-right mt-3"
+							aria-labelledby="userDropdown">
 
-                            <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-                                <input hidden type="submit" value="Logout"/>
-                            </form>
+							<!-- Logout link -->
+							<div sec:authorize="isAuthenticated()">
+								<a class="dropdown-item"
+									href="javascript: document.logoutForm.submit()">Logout</a>
+								<form name="logoutForm" th:action="@{/logout}" method="post"
+									th:hidden="true">
+									<input hidden type="submit" value="Logout" />
+								</form>
 
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
+							</div>
+
+
+
+
+						</div></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
 </body>
 </html>

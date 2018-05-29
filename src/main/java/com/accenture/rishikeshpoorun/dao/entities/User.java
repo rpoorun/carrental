@@ -1,15 +1,19 @@
 package com.accenture.rishikeshpoorun.dao.entities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="USER_TABLE")
@@ -17,6 +21,7 @@ public class User {
 	
 	@Id
 	@Column(name="USER_ID")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long userId;
 	
 	@Column(name="NATIONAL_ID", nullable=false, unique=true)
@@ -25,6 +30,9 @@ public class User {
 	@Column(name="PASSWORD")
 	private String password;
 	
+	@Column(name="NAME")
+	private String name;
+	
 	@Column(name="ROLE")
 	private String role;
 	
@@ -32,7 +40,8 @@ public class User {
 	private String sex;
 	
 	@Column(name="DATE_OF_BIRTH")
-	private Date dob;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate dob;
 	
 	@OneToMany (targetEntity=Rental.class, mappedBy="user", fetch=FetchType.EAGER)
 	private List<Rental> rentals;
@@ -85,12 +94,24 @@ public class User {
 		this.sex = sex;
 	}
 
-	public Date getDob() {
+	public LocalDate getDob() {
 		return dob;
 	}
 
-	public void setDob(Date dob) {
+	public void setDob(LocalDate dob) {
 		this.dob = dob;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setRentals(List<Rental> rentals) {
+		this.rentals = rentals;
 	}
 	
 	

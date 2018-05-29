@@ -18,19 +18,7 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
 	    model.addAttribute("errorException", request.getAttribute(RequestDispatcher.ERROR_EXCEPTION_TYPE));
     	model.addAttribute("errorMessage", request.getAttribute(RequestDispatcher.ERROR_MESSAGE));
 	    model.addAttribute("errorCode", status.toString());
-	  /*  
 	  
-	    if (status != null) {
-	        Integer statusCode = Integer.valueOf(status.toString());
-	     
-	        if(statusCode == HttpStatus.NOT_FOUND.value()) {
-	        	
-	            return "404";
-	        }
-	        else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-	            return "500";
-	        }
-	    }*/
 	    return "error";
 	}
 	

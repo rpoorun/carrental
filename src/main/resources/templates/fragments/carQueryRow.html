@@ -1,0 +1,28 @@
+<tr th:fragment="car-query-row">
+        <form method="post" th:action="@{/secured/car/find}" th:object="${car}">
+          <td><input type="text" class="form-control" th:field="*{registrationNumber}" id="registrationNumber" list="regNumbers" placeholder="Car Registration Number" /></td>
+          		<datalist id="regNumbers">
+          			<th:block th:each ="car: ${carlist}">
+          			<option th:value ="${car.registrationNumber}"/>
+          			</th:block>
+          		</datalist>
+          
+           <td><input type="text" class="form-control" th:field="*{model}" id="model" list="models" placeholder="Car Model" /></td>
+           		<datalist id="models">
+          			<th:block th:each ="car: ${carlist}">
+          			<option th:value ="${car.model}"/>
+          			</th:block>
+          		</datalist>
+           <td><input type="text" class="form-control" th:field="*{pricePerDay}" id="pricePerDay" list="prices" placeholder="Rental Price"  /></td>
+           		<datalist id="prices">
+          			<th:block th:each ="car: ${carlist}">
+          			<option th:value ="${car.pricePerDay}"/>
+          			</th:block>
+          		</datalist>
+          		
+           <td class="text-right" sec:authorize="hasRole('ADMIN')">
+               <button type="submit" class="btn btn-primary col-sm-10">Search</button>
+            </td>
+        
+        </form>
+        </tr>

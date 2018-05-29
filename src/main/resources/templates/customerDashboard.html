@@ -1,10 +1,40 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+    <!-- Include header, including javascript and CSS files. -->
+    <div th:replace="fragments/header :: header-head"/>
 </head>
 <body>
-<h1>This is the Customer Dashboard</h1>
+<!-- Include navigation bar in the page. -->
+<div th:replace="fragments/header :: header-nav"/>
+
+<div class="container mt-4">
+    <h1> Customer Dashboard</h1>
+    <h3 class="text-primary">Car Rental ltd</h3>
+    
+    <h4 style="color:blue;"> Customer Profile</h4>
+    <table class="table" sec:authorize="hasRole('ROLE_CUSTOMER')">
+    	<tbody>
+    		<tr>
+    			<td>National ID:</td>
+    			<td th:text="${user.nationalId}" style="font-weight: bold;">National ID</td>
+    			<td>Date of Birth:</td>
+    			<td th:text="${user.dob}" style="font-weight: bold;">Date of birth</td>
+    		</tr>
+    		<tr>
+    			<td>Name: </td>
+    			<td th:text="${user.name}" style="font-weight: bold;">Name</td>
+    			<td>Gender: </td>
+    			<td th:text= "${user.sex}" style="font-weight: bold;"> Gender</td>
+    		</tr>
+    		<tr>
+    			<td></td>
+    			<td></td>
+    			<td>Role:</td>
+    			<td th:text="${user.role}" style="font-weight: bold;">Role</td>
+    		</tr>
+    		
+    	</tbody>
+    </table>
 </body>
 </html>

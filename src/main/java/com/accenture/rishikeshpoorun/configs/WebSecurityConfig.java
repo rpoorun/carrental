@@ -26,14 +26,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	
-    	http.authorizeRequests().antMatchers("/index").permitAll().anyRequest().authenticated(); 
-    	http.authorizeRequests().antMatchers("/").permitAll().anyRequest().authenticated(); 
+    	http.authorizeRequests().antMatchers("/index","/").permitAll();
     	
-//    	http.authorizeRequests().antMatchers("/secured").hasRole("ADMIN").anyRequest().authenticated().and().formLogin()
-//				.permitAll();
-//
-//		http.authorizeRequests().antMatchers("/rent").hasRole("CUSTOMER").anyRequest().authenticated().and().formLogin()
-//				.permitAll();
     	
         http.csrf().disable()
             .authorizeRequests()
@@ -46,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .logout()
             .logoutUrl("/logout")
-            .logoutSuccessUrl("/login")
+            .logoutSuccessUrl("/index")
             .permitAll();
         
     	
@@ -61,12 +55,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .logout()
             .logoutUrl("/logout")
-            .logoutSuccessUrl("/login")
+            .logoutSuccessUrl("/index")
             .permitAll();
         
         http.csrf().disable()
 	        .authorizeRequests()
-	        .antMatchers("/rest").hasRole("WS")
+	        .antMatchers("/rest")
+	        .hasRole("WS")
 	        .anyRequest().authenticated()
 	        .and()
 	        .formLogin()

@@ -14,20 +14,7 @@ public class MvcConfig implements WebMvcConfigurer{
 	public void addViewControllers(ViewControllerRegistry registry) {
 		//Resolver list for direct domain http://localhost:8080/* 
 		
-		/* // Duplicate entry in the Front Controller
-		 * registry.addViewController("/").setViewName("index");
-		 */
-		/* // Duplicate Entry in the Front Controller
-		 * registry.addViewController("/index").setViewName("index");
-		 */
-		/*
-		 * registry.addViewController("/secured").setViewName("adminDashboard");
-		 */
-		/*
-		 * registry.addViewController("/rent").setViewName("customerDashboard");
-		 */
-		registry.addViewController("/login").setViewName("loginForm");
-		
+		// registry.addViewController("/logout").setViewName("/index");
 		
 	}
 	

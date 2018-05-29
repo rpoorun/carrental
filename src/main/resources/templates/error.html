@@ -18,7 +18,7 @@
 
 		<!-- Page Heading/Breadcrumbs -->
 		<h1 class="mt-4 mb-3">
-			<span th:text="${errorCode}">Error</span> <small>Page Not Found</small>
+			<span th:text="${errorCode}">Error</span> <small th:text="${errorMessage}">Page Not Found</small>
 		</h1>
 
 		<ol class="breadcrumb">
