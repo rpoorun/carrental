@@ -1,27 +1,53 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Login Form</title>
-    </head>
-    <body>
-        
-        <form method="post" th:action="@{/login}">
-        	
-        	<!-- Error for wrong credentials -->
-        	<div th:if="${param.error}" style="color:red">
-        		Invalid Username and Password
-        	</div>
-        	
-        	<!-- Logout Handling -->
-        	<div th:if="${param.logout}">
-        		You have been logged out
-        	</div>
-        	
-        	<input type="text" name="username" placeholder="Enter User Id"/>
-        	<input type="password" name="password" placeholder="Enter Password"/>
-        	<input type="submit" value="Login"/>
-        	
-        </form>
-        
-    </body>
-</html> 
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Include header, including javascript and CSS files. -->
+    <div th:replace="fragments/header :: header-head"></div>
+</head>
+<body>
+    <!-- Login form -->
+    <div class="container mt-4">
+        <div class="card col-sm-4 offset-md-4  box-shadow pt-2">
+
+            <div class="card-body">
+                <!-- POST login data to /login -->
+                <form class="form-signin" th:action="@{/login}" method="post">
+                    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+
+                    <!-- Errors handling -->
+                    <div th:if="${param.error}" class="alert alert-danger" role="alert">
+                        Invalid username and password.
+                    </div>
+
+                    <!-- Loggout handling -->
+                    <div th:if="${param.logout}" class="alert alert-info" role="alert">
+                        You have been logged out.
+                    </div>
+
+                    <label for="username" class="sr-only">User</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="User" required autofocus>
+
+                    <label for="password" class="sr-only">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" value="remember-me"> Remember me
+                        </label>
+                    </div>
+
+                    <button class="btn btn-lg btn-outline-primary" type="submit">Sign in</button>
+
+                    <div class="alert alert-info mt-3" style="font-size:0.8rem">
+                        <!--<strong>Valid users:</strong> <br/>
+                         <em>
+                            john.doe/password has admin rights <br/>
+                            jahn.dae/password has user rights <br/>
+                        </em> -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

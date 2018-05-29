@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<!-- Namespace for Securty extension for thymeleaf is added enabling the use of sec:authentication and sec:authorize-->
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+		<!-- Include header, including javascript and CSS files. -->
+		<div th:replace="fragments/header :: header-head" />
+
+</head>
+
+<body>
+
+	<!-- Include navigation bar in the page. -->
+	<div th:replace="fragments/header :: header-nav" />
+
+	<!-- Page Content -->
+	<div class="container">
+
+		<!-- Page Heading/Breadcrumbs -->
+		<h1 class="mt-4 mb-3">
+			<span th:text="${errorCode}">Error</span> <small>Page Not Found</small>
+		</h1>
+
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/index">Home</a></li>
+			<li class="breadcrumb-item active" th:text="${errorCode}">Error</li>
+		</ol>
+
+		<div class="jumbotron">
+			<h1 class="display-1" th:text="${errorCode}">404</h1>
+			<p>The page you're looking for could not be found. </p>
+			<p th:text="${errorException}"></p>
+			<p th:text="${errorMessage}"></p>
+			
+		</div>
+		<!-- /.jumbotron -->
+
+	</div>
+	<!-- /.container -->
+
+	<!-- Footer -->
+<!-- 	<footer class="py-5 bg-dark">
+		<div class="container">
+			<p class="m-0 text-center text-white">Copyright &copy; Your
+				Website 2018</p>
+		</div>
+		/.container
+	</footer> -->
+
+	
+</body>
+
+</html>

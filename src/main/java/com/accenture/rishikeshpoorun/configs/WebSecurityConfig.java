@@ -27,41 +27,51 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
     	
     	http.authorizeRequests().antMatchers("/index").permitAll().anyRequest().authenticated(); 
+    	http.authorizeRequests().antMatchers("/").permitAll().anyRequest().authenticated(); 
     	
-    	http.authorizeRequests().antMatchers("/secured").hasRole("ADMIN").anyRequest().authenticated().and().formLogin()
-				.permitAll();
-
-		http.authorizeRequests().antMatchers("/rent").hasRole("CUSTOMER").anyRequest().authenticated().and().formLogin()
-				.permitAll();
+//    	http.authorizeRequests().antMatchers("/secured").hasRole("ADMIN").anyRequest().authenticated().and().formLogin()
+//				.permitAll();
+//
+//		http.authorizeRequests().antMatchers("/rent").hasRole("CUSTOMER").anyRequest().authenticated().and().formLogin()
+//				.permitAll();
     	
-//        http.csrf().disable()
-//            .authorizeRequests()
-//            .antMatchers("/rent/*").hasRole("CUSTOMER")
-//            .anyRequest().authenticated()
-//            .and()
-//            .formLogin()
-//           // .loginPage("/loginForm")
-//            .permitAll()
-//            .and()
-//            .logout()
-//            .logoutUrl("/logout")
-//            .logoutSuccessUrl("/login")
-//            .permitAll();
-//        
-//    	
-//        http.csrf().disable()
-//            .authorizeRequests()
-//            .antMatchers("/secured/*").hasRole("ADMIN")
-//            .anyRequest().authenticated()
-//            .and()
-//            .formLogin()
-//           // .loginPage("/loginForm")
-//            .permitAll()
-//            .and()
-//            .logout()
-//            .logoutUrl("/logout")
-//            .logoutSuccessUrl("/login")
-//            .permitAll();
+        http.csrf().disable()
+            .authorizeRequests()
+            .antMatchers("/rent/*").hasRole("CUSTOMER")
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            .loginPage("/login")
+            .permitAll()
+            .and()
+            .logout()
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/login")
+            .permitAll();
+        
+    	
+        http.csrf().disable()
+            .authorizeRequests()
+            .antMatchers("/secured/*").hasRole("ADMIN")
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            .loginPage("/login")
+            .permitAll()
+            .and()
+            .logout()
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/login")
+            .permitAll();
+        
+        http.csrf().disable()
+	        .authorizeRequests()
+	        .antMatchers("/rest").hasRole("WS")
+	        .anyRequest().authenticated()
+	        .and()
+	        .formLogin()
+	        .permitAll();
+	      
     }
 
 
@@ -73,7 +83,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication().withUser("customer").password("1234").roles("CUSTOMER");
         auth.inMemoryAuthentication().withUser("admin").password("1234").roles("ADMIN");
-        auth.inMemoryAuthentication().withUser("reader").password("1234").roles("READER");
+        auth.inMemoryAuthentication().withUser("webservice").password("1234").roles("WS");
     }
      //*/
 
