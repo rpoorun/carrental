@@ -25,112 +25,109 @@ public class CustomerService {
 		this.userRepo = userRepo;
 	}
 
-	public boolean createCustomer(User customer) {
-
-		if (userRepo.save(customer) == null) {
+	public boolean saveCustomer(User customer) {
+			User fetch = userRepo.findByNationalId(customer.getNationalId());
+		if(fetch != null) {
+			fetch.setName(customer.getName());
+			fetch.setSex(customer.getSex());
+			fetch.setPassword(customer.getPassword());
+			fetch.setRole(customer.getRole());
+			
+		}
+		
+		else if (userRepo.save(customer) == null) {
 			return false;
-		} else {
+		} 
 
 			return true;
-		}
-	}
-	
-	
-	public boolean updateCustomer(User customer) throws CustomerNotFoundException {
-		
-		if(userRepo.findByNationalId(customer.getNationalId()) != null) {
-			userRepo.save(customer);
-			
-		}
-		else {
-			throw new CustomerNotFoundException("Cannot find customer!");
-		}
-		
-		return true;
-	}
-	
-	
-	
-	public boolean deleteCustomer(String nationalId) throws CustomerNotFoundException{
-		if(userRepo.findByNationalId(nationalId) != null) {
-			userRepo.deleteByNationalId(nationalId);
-			
-		}
-		else {
-			throw new CustomerNotFoundException("Cannot find customer!");
-		}
-		
-		return true;
 		
 	}
 
+	public boolean updateCustomer(User customer) throws CustomerNotFoundException {
+
+		if (userRepo.findByNationalId(customer.getNationalId()) != null) {
+			userRepo.save(customer);
+
+		} else {
+			throw new CustomerNotFoundException("Cannot find customer!");
+		}
+
+		return true;
+	}
+
+	public boolean deleteCustomer(String nationalId) throws CustomerNotFoundException {
+		if (userRepo.findByNationalId(nationalId) != null) {
+			userRepo.deleteByNationalId(nationalId);
+
+		} else {
+			throw new CustomerNotFoundException("Cannot find customer!");
+		}
+
+		return true;
+
+	}
 
 	public boolean deleteCustomer(Long userId) throws CustomerNotFoundException {
-		if(userRepo.findById(userId) != null) {
-			userRepo.deleteById(userId);;
-			
-		}
-		else {
+		if (userRepo.findById(userId) != null) {
+			userRepo.deleteById(userId);
+			;
+
+		} else {
 			throw new CustomerNotFoundException("Cannot find customer!");
 		}
-		
+
 		return true;
 	}
-	
-	
+
 	public User findById(Long userId) throws CustomerNotFoundException {
-				
-		if(!userRepo.existsById(userId)) {
+
+		if (!userRepo.existsById(userId)) {
 			throw new CustomerNotFoundException("Cannot find customer of specified User ID");
 		}
-		
+
 		return userRepo.findById(userId).get();
-				
+
 	}
-	
+
 	public List<User> findByName(String name) throws CustomerNotFoundException {
 		List<User> customer = userRepo.findAllByName(name);
-		
-		if(customer == null) {
+
+		if (customer == null) {
 			throw new CustomerNotFoundException("Cannot find customer of specified Name");
 		}
 		return customer;
 	}
-	
+
 	public User findByNationalId(String nationalId) throws CustomerNotFoundException {
-		
+
 		User customer = userRepo.findByNationalId(nationalId);
-		
-		if( customer == null) {
+
+		if (customer == null) {
 			throw new CustomerNotFoundException("Cannot find customer of specified National ID");
 		}
-		
+
 		return customer;
 	}
-	
-	
-	public List<User> getAllCustomer(){
-		
+
+	public List<User> getAllCustomer() {
+
 		List<User> list = new ArrayList<>();
-		
+
 		userRepo.findAll().forEach(list::add);
-		
+
 		return list;
 	}
 
 	public void saveListToDatabase(List<User> list) {
-		for(User u: list) {
+		for (User u : list) {
 			userRepo.save(u);
 		}
-		
+
 	}
 
 	public List<User> readCSVToCar(String fileName) throws FileNotFoundException, IOException {
-		
+
 		return ReadFileUtil.readCSVToUser(fileName);
 	}
-
-	
-
 
 }

@@ -36,11 +36,13 @@ public class AdminController_User {
 	private RentalService rentalService;
 	
 	@GetMapping("/all")
-	public String showAllUsers(Model model) {
+	public String showAllUsers(Model model, String nationalId) {
 		
 		List<User> list = customerService.getAllCustomer();
 		model.addAttribute("userlist", list);
 		model.addAttribute("user", new User());
+		nationalId = (nationalId == null)? "none":nationalId;
+		model.addAttribute("new", nationalId);
 		return "secured_page/userList";
 	}
 	
@@ -49,31 +51,45 @@ public class AdminController_User {
 	public String goToAddUserPage(Model model) {
 
 		model.addAttribute("user", new User());
-		return "secured_page/userAdd";
+		return "secured_page/userForm";
 	}
 	
 	@PostMapping(value = "/add")
 	public String goToNewShowAllUser(@ModelAttribute User u, Model model) {
 		
 		try {
-			boolean status = customerService.createCustomer(u);
+			boolean status = customerService.saveCustomer(u);
 			if (status) {
-				model.addAttribute("new", u.getNationalId());
-				return showAllUsers(model);
+				
+				return showAllUsers(model, u.getNationalId());
 			} else {
 
 				model.addAttribute("status", "Failed to add User " + u.getNationalId());
-				return "secured_page/userAdd";
+				return "secured_page/userForm";
 			}
 		}
 
 		catch (Exception e) {
 
 			model.addAttribute("status", "Failed to add User: " + u.getNationalId() +", Reason: User Entry already exists! ");
-			return "secured_page/userAdd";
+			return "secured_page/userForm";
 		}
 
 	}
+	
+	@GetMapping(value="/update/{userId}")
+	public String goToUpdateUserPage(@PathVariable("userId") Long userId, Model model) {
+		try {
+			User u = customerService.findById(userId);
+			model.addAttribute("user", u);
+		} catch (CustomerNotFoundException e) {
+		}
+		
+		model.addAttribute("mode", "Update");
+	
+		return "secured_page/userForm";
+	}
+	
 	
 	@GetMapping(value="/read/{userId}")
 	public String readUser(@PathVariable("userId") Long userId, Model model) {
@@ -106,7 +122,7 @@ public class AdminController_User {
 			
 		}
 		
-		return showAllUsers(model);
+		return showAllUsers(model, "none");
 	}
 	
 	

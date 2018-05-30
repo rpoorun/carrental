@@ -14,7 +14,9 @@
 
 <!-- Page content -->
 <div class="container mt-4">
-    <h1> Customer Profile</h1>
+    <h1> Customer Profile
+    <a role="button" class="btn btn-outline-primary"
+        th:href="'/secured/user/update/'+${user.userId}">Edit Profile</a></h1>
     <table class="table">
     	<tbody>
     		<tr>

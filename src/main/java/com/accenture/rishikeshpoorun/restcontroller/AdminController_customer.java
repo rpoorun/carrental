@@ -24,7 +24,7 @@ public class AdminController_customer {
 	@PostMapping("/add")
 	public String createCustomer(@RequestBody User customer) {
 
-		boolean status = customerService.createCustomer(customer);
+		boolean status = customerService.saveCustomer(customer);
 
 		if (status) {
 			return "Customer has been created!";

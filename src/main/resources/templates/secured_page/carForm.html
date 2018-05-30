@@ -14,11 +14,11 @@
         <h3 class="text-primary">Car <span class="badge badge-primary" th:text="${mode}">Form</span></h3>
         <div class="form-group">
             <label for="registrationNumber">Registration Number: </label>
-            <input type="text" class="form-control" th:field="*{registrationNumber}" id="registrationNumber" placeholder="Car Registration Number" required />
+            <input type="text" class="form-control" th:field="*{registrationNumber}" id="registrationNumber" placeholder="Car Registration Number" th:readonly="${mode == 'Update'}" required />
         </div>
         <div class="form-group">
             <label for="model">Model: </label>
-            <input type="text" class="form-control" th:field="*{model}"  id="model" placeholder="Car Model" required />
+            <input type="text" class="form-control" th:field="*{model}"  id="model" placeholder="Car Model" th:readonly="${mode == 'Update'}"  required />
         </div>
         <div class="form-group">
             <label for="pricePerDay">Price per day:</label>
