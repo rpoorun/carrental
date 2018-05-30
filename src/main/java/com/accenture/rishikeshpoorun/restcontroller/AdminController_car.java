@@ -26,7 +26,7 @@ public class AdminController_car {
 	@PostMapping("/add")
 	public String createCar(@RequestBody Car car) {
 
-		boolean status = carService.createCar(car);
+		boolean status = carService.saveCar(car);
 
 		if (status) {
 			return "Car has been created!";

@@ -6,8 +6,7 @@
 
 	<groupId>com.accenture.rishikeshpoorun</groupId>
 	<artifactId>carrental</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<version>1.2</version>
 
 	<name>carrental</name>
 	<description>Spring Project Assignment</description>

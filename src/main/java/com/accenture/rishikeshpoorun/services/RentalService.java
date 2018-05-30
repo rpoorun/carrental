@@ -226,7 +226,7 @@ public class RentalService {
 		validateDates(startDate, endDate);
 		isUserStillOnLent(userId);
 		isCarAvailForRent(carId);
-		
+
 		Rental r = new Rental();
 
 		r.setCar(carRepo.findById(userId).get());
@@ -274,28 +274,25 @@ public class RentalService {
 
 	}
 
-	
-	//Method to update the entry and release the car from user
+	// Method to update the entry and release the car from user
 	public boolean updateRentalEntry(Long carId, Long userId) throws RentalEntryNotFoundException {
 
 		Rental rtest = rentalRepo.findByUserAndCar(carId, userId);
-		if( rtest !=null) {
+		if (rtest != null) {
 			rtest.setReturned(true);
 			rentalRepo.save(rtest);
 			return true;
-		}
-		else {
+		} else {
 			throw new RentalEntryNotFoundException("Cannot find the specified rental entry!");
 		}
-		
-		
+
 	}
 
 	public List<Rental> showAllRental() {
 		List<Rental> list = new ArrayList<>();
-		
+
 		list = rentalRepo.findAll();
-		
+
 		return list;
 	}
 
@@ -312,6 +309,30 @@ public class RentalService {
 		}
 
 		return list;
+	}
+
+	public Rental findByRentalId(Long rentalId) {
+
+		return rentalRepo.findById(rentalId).get();
+	}
+
+	public List<Rental> allRentalByCarId(Long carId) {
+
+		List<Rental> list = rentalRepo.findAllByCarId(carId);
+
+		return list;
+	}
+
+	public List<Rental> allRentalByUserId(Long userId) {
+		List<Rental> list = rentalRepo.findAllByUserId(userId);
+
+		return list;
+	}
+
+	public void saveRental(Rental r) {
+
+		rentalRepo.save(r);
+		
 	}
 
 }

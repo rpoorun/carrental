@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class FrontController {
 	
 	
-	@GetMapping(value= {"/home","/index","/homepage", "/"})
+	@GetMapping(value= {"/","/home","/index","/homepage"})
 	public String goToHomePage(Model model) {
 		
 		return "index";
@@ -23,7 +23,7 @@ public class FrontController {
 	}
 	
 	@Secured(value= {"ROLE_CUSTOMER", "ROLE_ADMIN"})
-	@GetMapping(value="/rent")
+	@GetMapping(value="/customer")
 	public String goToCustomerDashBoard() {
 		return "customerDashboard";
 	}

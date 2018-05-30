@@ -1,6 +1,8 @@
 package com.accenture.rishikeshpoorun.configs;
 
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	
         http.csrf().disable()
             .authorizeRequests()
-            .antMatchers("/rent/*").hasRole("CUSTOMER")
+            .antMatchers("/customer").hasRole("CUSTOMER")
             .anyRequest().authenticated()
             .and()
             .formLogin()
@@ -46,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	
         http.csrf().disable()
             .authorizeRequests()
-            .antMatchers("/secured/*").hasRole("ADMIN")
+            .antMatchers("/secured").hasRole("ADMIN")
             .anyRequest().authenticated()
             .and()
             .formLogin()
@@ -88,8 +90,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    /*/
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth, DataSource dataSource) throws Exception {
-        String userQuery = "select id, password, 1 from employee where id=?";
-        String authoritiesQuery ="select id, 'ROLE_ADMIN' from employee where id=?";
+        String userQuery = "SELECT national_id, password FROM user_table WHERE national_id =?";
+        String authoritiesQuery ="select national_id, 'ROLE_ADMIN' FROM user_table where national_id =?";
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery(userQuery)
                 .authoritiesByUsernameQuery(authoritiesQuery)

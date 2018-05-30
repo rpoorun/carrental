@@ -14,7 +14,7 @@ public class MvcConfig implements WebMvcConfigurer{
 	public void addViewControllers(ViewControllerRegistry registry) {
 		//Resolver list for direct domain http://localhost:8080/* 
 		
-		// registry.addViewController("/logout").setViewName("/index");
+		registry.addViewController("/").setViewName("/index");
 		
 	}
 	

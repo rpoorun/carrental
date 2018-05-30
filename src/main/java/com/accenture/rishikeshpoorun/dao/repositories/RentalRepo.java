@@ -15,7 +15,7 @@ public interface RentalRepo extends JpaRepository<Rental, Long> {
 
 	@Query("SELECT c FROM Car c WHERE c.carId NOT IN (SELECT car FROM Rental r WHERE r.returned = false)")
 	public List<Car> allCarsAvailForRent();
-
+	
 	@Query("SELECT u FROM User u WHERE u.userId IN (SELECT user FROM Rental r WHERE r.startDate =:startDate AND r.endDate=:endDate)")
 	public List<User> userRentOnPeriod(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
@@ -53,5 +53,12 @@ public interface RentalRepo extends JpaRepository<Rental, Long> {
 	 */
 	@Query("SELECT r FROM Rental r WHERE r.returned = false AND r.car = (SELECT c FROM Car c WHERE c.carId =:carId) AND r.user = (SELECT u FROM User u WHERE u.userId =:userId)")
 	public Rental findByUserAndCar(@Param("carId") Long carId, @Param("userId") Long userId);
+
+	
+	@Query("SELECT r FROM Rental r WHERE r.car = (SELECT c FROM Car c WHERE c.carId=:carId)")
+	public List<Rental> findAllByCarId(@Param("carId") Long carId);
+	
+	@Query("SELECT r FROM Rental r WHERE r.user = (SELECT u FROM User u WHERE u.userId=:userId)")
+	public List<Rental> findAllByUserId(@Param("userId") Long userId);
 
 }

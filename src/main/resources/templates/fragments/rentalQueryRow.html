@@ -1,5 +1,5 @@
 <tr th:fragment="rental-query-row">
-        <form method="post" th:action="@{/secured/rent/find}" th:object="${rent}">
+        <form method="post" th:action="@{/secured/rental/find}" th:object="${rentDto}">
           <td><input type="text" class="form-control" th:field="*{rentalId}" id="rentalId" list="rentals" placeholder="Rental Entry ID" />
           		<datalist id="rentals">
           			<th:block th:each ="rent: ${rentalList}">
@@ -7,10 +7,17 @@
           			</th:block>
           		</datalist>
           </td>
-           <td><input type="text" class="form-control" th:field="*{car.registrationNumber}" id="registrationNumber" list="regNums" placeholder="Car Registration" />
+           <td><input type="text" class="form-control" th:field="*{registrationNumber}" id="registrationNumber" list="regNums" placeholder="Car Registration" />
            		<datalist id="regNums">
           			<th:block th:each ="rent: ${rentalList}">
           			<option th:value ="${rent.car.registrationNumber}"/>
+          			</th:block>
+          		</datalist>
+          		</td>
+          		<td><input type="text" class="form-control" th:field="*{nationalId}" id="nationalId" list="nics" placeholder="National ID" />
+           		<datalist id="nics">
+          			<th:block th:each ="rent: ${rentalList}">
+          			<option th:value ="${rent.user.nationalId}"/>
           			</th:block>
           		</datalist>
           		</td>

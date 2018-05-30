@@ -11,7 +11,7 @@
 <!-- Main content -->
 <div class="container mt-4">
     <form method="post" th:action="@{/secured/car/add}" th:object="${car}">
-        <h3 class="text-primary">Car <span class="badge badge-primary" th:text="${mode}">Form</span></h3>
+        <h3 class="text-primary">Car <span class="text-primary" th:text="${mode}">Form</span></h3>
         <div class="form-group">
             <label for="registrationNumber">Registration Number: </label>
             <input type="text" class="form-control" th:field="*{registrationNumber}" id="registrationNumber" placeholder="Car Registration Number" th:readonly="${mode == 'Update'}" required />

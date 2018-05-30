@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.accenture.rishikeshpoorun.dao.entities.Car;
+import com.accenture.rishikeshpoorun.dao.entities.User;
 import com.accenture.rishikeshpoorun.dao.repositories.CarRepo;
 import com.accenture.rishikeshpoorun.exceptions.CarNotFoundException;
 import com.accenture.rishikeshpoorun.util.ReadFileUtil;
@@ -24,13 +25,18 @@ public class CarService {
 		this.carRepo = carRepo;
 	}
 
-	public boolean createCar(Car car) {
+	public boolean saveCar(Car car) {
 
-		if (carRepo.save(car) == null) {
+		Car fetch = carRepo.findByRegistrationNumber(car.getRegistrationNumber());
+
+		if (fetch != null) {
+			fetch.setModel(car.getModel());
+			
+		} else if (carRepo.save(car) == null) {
 			return false;
-		} else {
+		} 
 			return true;
-		}
+		
 	}
 
 	public boolean updateCar(Car car) throws CarNotFoundException {
@@ -100,18 +106,16 @@ public class CarService {
 
 		return list;
 	}
-	
-	
+
 	public List<Car> findByPricePerDay(Double pricePerDay) throws CarNotFoundException {
 		List<Car> list = carRepo.findAllByPricePerDay(pricePerDay);
 
 		if (list.isEmpty()) {
 			throw new CarNotFoundException("Cannot find car by the specified Rental Price");
 		}
-		
+
 		return list;
 	}
-
 
 	public List<Car> getAllCars() {
 
@@ -126,15 +130,12 @@ public class CarService {
 
 		return ReadFileUtil.readCSVToCar(fileName);
 	}
-	
-	
-	
+
 	public void saveListToDatabase(List<Car> list) {
-		
-		for(Car c: list) {
+
+		for (Car c : list) {
 			carRepo.save(c);
 		}
 	}
 
-	
 }

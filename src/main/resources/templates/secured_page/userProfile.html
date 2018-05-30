@@ -45,38 +45,14 @@
        
     <!-- Rental table -->
     <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">Rental ID</th>
-            <th scope="col">Car Registration</th>
-            <th scope="col">Start Date</th>
-            <th scope="col">End Date</th>
-            <th scope="col">Returned</th>
-           
-            <th scope="col" width = "250"></th>
-        </tr>
-        </thead>
+       <thead th:replace="fragments/rentalTableHeader :: rental-table-header"></thead>
         
         <tbody>
         <!-- Rental Search Row -->
                 <tr th:replace="fragments/rentalQueryRow :: rental-query-row"></tr>
         
-        <!-- User list per row -->
-        <tr th:each="rent : ${rentalList}" >
-       
-            <th scope="row" th:text="${rent.rentalId}">Rental ID</th>
-            <td th:text="">Car Registration</td>
-            <td th:text="${rent.startDate}">Start Date</td>
-            <td th:text="${rent.endDate}">End Date</td>
-            <td th:text="${rent.returned}" >Returned</td>
-            
-            <td class="text-right" sec:authorize="hasRole('ADMIN')">
-                <a role="button" class="btn btn-outline-primary" th:href="'/secured/rent/read/'+${rent.rentalId}">View</a>
-                <a role="button" class="btn btn-outline-primary" th:href="'/secured/rent/update/'+${rent.rentalId}">Edit</a>
-                <a role="button" class="btn btn-outline-primary" th:href="'/secured/rent/delete/'+${rent.rentalId}" onclick="alert('You are about to delet a user entry! Do you wish to proceed?')">Delete</a>
-            </td>
-          
-        </tr>
+        <!-- Rental list per row -->
+        <tr th:replace="fragments/populateRentalTable :: populate-rental-table"></tr>
         </tbody>
     </table>
     

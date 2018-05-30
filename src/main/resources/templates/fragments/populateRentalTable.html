@@ -1,0 +1,20 @@
+<tr th:fragment="populate-rental-table" th:each="rent : ${rentalList}" >
+       
+            <th scope="row" th:text="${rent.rentalId}">Rental ID</th>
+             <td th:text="${rent.car.registrationNumber}">Car Registration</td>
+            <td th:text="${rent.user.nationalId}">National ID</td>
+            <td th:text="${rent.startDate}">Start Date</td>
+            <td th:text="${rent.endDate}">End Date</td>
+            <td th:text="${rent.returned}">Returned</td>
+            
+            <td class="text-right" sec:authorize="hasRole('ADMIN')">
+                <a role="button" class="btn btn-outline-primary" th:href="'/secured/rental/read/'+${rent.rentalId}">View</a>
+               <span th:style="${rent.returned}?  'display:none' : 'display:inline' ">
+                <a role="button" id="releasebtn" class="btn btn-outline-success" th:href="'/secured/rental/released/'+${rent.rentalId}">
+                Release</a>
+                </span>
+            </td>
+            
+           
+          
+        </tr>

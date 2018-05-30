@@ -19,19 +19,28 @@
           <div class="card h-100">
             <h4 class="card-header">Manage Cars</h4>
             <div class="card-body">
-              <p class="card-text">Description here<br/>
-              View: Displays all the car entries!
-              Add: Create a new car entry!
-              Update: Edit the Car profile!
-              Delete: Remove a Car entry!
+              <p class="card-text">
+              <b>View:</b> Displays all the car entries<br/>
+              <b>Add:</b>  Create a new car entry<br/>
+              <b>Update:</b>  Edit the Car profile<br/>
+             <b>Delete:</b>  Remove a Car entry<br/>
+             <b>Query:</b>  File a query to database<br/>
+             <b>Available:</b>  Show all cars currently available<br/>
               </p>
             </div>
             <div class="card-footer">
               <a href="secured/car/all" class="btn btn-primary">View All</a>
               <a href="secured/car/add" class="btn btn-primary">Add</a>
               <a href="secured/car/query" class="btn btn-primary">Update</a>
-              <a href="secured/car/query" class="btn btn-primary">Delete</a>
+              <a href="secured/car/query" class="btn btn-danger">Delete</a>
             </div>
+            <div class="card-footer">
+              <a href="secured/rental/search" class="btn btn-primary">Query</a>
+              <a href="customer/car/showallavail" class="btn btn-primary">Available Car</a>
+              <a href="secured/car/csvFileTocar" class="btn btn-warning">Import CSV</a>
+              
+            </div>
+            
           </div>
         </div>
         <div class="col-lg-4 mb-4">
@@ -39,17 +48,17 @@
             <h4 class="card-header">Manage Customers</h4>
             <div class="card-body">
               <p class="card-text">
-              View: Displays all the User entries!
-              Add: Create a new User entry!
-              Update: Edit the User profile!
-              Delete: Remove a User entry!
+             <b>View:</b> Displays all the user entries!<br/>
+              <b>Add:</b>  Create a new user entry!<br/>
+              <b>Update:</b>  Edit the user profile!<br/>
+             <b>Delete:</b>  Remove a user entry!<br/>
               </p>
             </div>
             <div class="card-footer">
               <a href="secured/user/all" class="btn btn-primary">View All</a>
               <a href="secured/user/add" class="btn btn-primary">Add</a>
               <a href="secured/user/query" class="btn btn-primary">Update</a>
-              <a href="secured/user/query" class="btn btn-primary">Delete</a>
+              <a href="secured/user/query" class="btn btn-danger">Delete</a>
             </div>
           </div>
         </div>
@@ -57,11 +66,25 @@
           <div class="card h-100">
             <h4 class="card-header">Manage Rental</h4>
             <div class="card-body">
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+              <p class="card-text">
+              <b>View:</b> Displays all the car entries!<br/>
+              <b>Update:</b>  Edit the Car profile!<br/>
+             <b>Delete:</b>  Remove a Car entry!<br/>
+
+			</p>
             </div>
             <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
+              <a href="secured/rental/all" class="btn btn-primary">View All</a>
+              <a href="secured/rental/query" class="btn btn-primary">Update</a>
+              <a href="secured/rental/query" class="btn btn-primary">Delete</a>
             </div>
+            <div class="card-footer">
+              <a href="secured/rental/search" class="btn btn-primary">Query</a>
+              <a href="customer/car/showallavail" class="btn btn-warning">Allocate</a>
+              <a href="secured/car/released" class="btn btn-success">Release</a>
+              
+            </div>
+            
           </div>
         </div>
       </div>

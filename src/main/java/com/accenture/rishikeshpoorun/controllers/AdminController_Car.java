@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,14 +20,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.accenture.rishikeshpoorun.dao.entities.Car;
 import com.accenture.rishikeshpoorun.dao.entities.Rental;
+import com.accenture.rishikeshpoorun.dto.RentalDto;
 import com.accenture.rishikeshpoorun.exceptions.CarNotFoundException;
-import com.accenture.rishikeshpoorun.exceptions.CustomerNotFoundException;
 import com.accenture.rishikeshpoorun.services.CarService;
 import com.accenture.rishikeshpoorun.services.RentalService;
 
 @Controller
 @RequestMapping(value = "/secured/car")
-public class AdminContoller_Car {
+@Secured(value= {"ROLE_ADMIN"})
+public class AdminController_Car {
 
 	@Autowired
 	private CarService carService;
@@ -48,18 +50,23 @@ public class AdminContoller_Car {
 	public String goToAddCarPage(Model model) {
 
 		model.addAttribute("car", new Car());
-		return "secured_page/carAdd";
+		return "secured_page/carForm";
 	}
 
 	@GetMapping(value="/read/{carId}")
-	public String readUser(@PathVariable("carId") Long carId, Model model) {
+	public String readCar(@PathVariable("carId") Long carId, Model model) {
 		
 		try {
 			Car c = carService.findById(carId);
-			List<Car> rentedCar = rentalService.carsRentedByCarId(carId);
+			List<Rental> rentalList = rentalService.allRentalByCarId(carId);
+			List<RentalDto> rentalDtoList = new ArrayList<>();
+			for(Rental r: rentalList) {
+				rentalDtoList.add(new RentalDto(r));
+			}
+			model.addAttribute("rentalDtoList", rentalDtoList);
 			model.addAttribute("car", c);
-			model.addAttribute("rentalList", rentedCar);
-			model.addAttribute("rent", new Rental());
+			model.addAttribute("rentalList", rentalList);
+			model.addAttribute("rentDto", new RentalDto());
 			
 		} catch ( CarNotFoundException e) {
 			model.addAttribute("status", e.getLocalizedMessage());
@@ -67,6 +74,25 @@ public class AdminContoller_Car {
 		
 		return "secured_page/carProfile";
 	}
+	
+	
+	@GetMapping(value="/update/{carId}")
+	public String goToUpdateCarProfile(@PathVariable("carId") Long carId, Model model) {
+		try {
+			Car c = carService.findById(carId);
+			
+			model.addAttribute("car", c);
+		} catch (CarNotFoundException e) {
+		}
+		
+		model.addAttribute("mode", "Update");
+	
+		return "secured_page/carForm";
+	}
+	
+	
+	
+	
 	@GetMapping(value = "/delete/{carId}")
 	public String deleteCar(@PathVariable("carId") Long carId, Model model) {
 
@@ -88,14 +114,14 @@ public class AdminContoller_Car {
 	public String goToNewShowAllCar(@ModelAttribute Car c, Model model) {
 
 		try {
-			boolean status = carService.createCar(c);
+			boolean status = carService.saveCar(c);
 			if (status) {
 				model.addAttribute("new", c.getRegistrationNumber());
 				return showAllCar(model);
 			} else {
 
 				model.addAttribute("status", "Failed to add car " + c.getRegistrationNumber());
-				return "secured_page/carAdd";
+				return "secured_page/carForm";
 			}
 		}
 
@@ -103,7 +129,7 @@ public class AdminContoller_Car {
 
 			model.addAttribute("status",
 					"Failed to add Car: " + c.getRegistrationNumber() + ", Reason: Car Entry already exists!");
-			return "secured_page/carAdd";
+			return "secured_page/carForm";
 		}
 
 	}

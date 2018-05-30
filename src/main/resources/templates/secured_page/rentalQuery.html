@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<!-- Namespace for Securty extension for thymeleaf is added enabling the use of sec:authentication and sec:authorize-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <!-- Include header, including javascript and CSS files. -->
+    <div th:replace="fragments/header :: header-head"/>
+
+    
+</head>
+<body>
+<!-- Include navigation bar in the page. -->
+<div th:replace="fragments/header :: header-nav"/>
+
+<!-- Page content -->
+<div class="container mt-4">
+    <h3 class="text-primary">Rental Query
+        
+    </h3>
+	<!-- Status -->
+	<h4 class="text-primary">
+     	<span class="badge badge-primary" th:text="${status}"></span></h4>
+     	
+     <!-- Rental table -->
+    <table class="table">
+       <thead th:replace="fragments/rentalTableHeader :: rental-table-header"></thead>
+        
+        <tbody>
+        <!-- Rental Search Row -->
+                <tr th:replace="fragments/rentalQueryRow :: rental-query-row"></tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>
+
+        

@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,15 +19,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.accenture.rishikeshpoorun.dao.entities.Car;
 import com.accenture.rishikeshpoorun.dao.entities.Rental;
 import com.accenture.rishikeshpoorun.dao.entities.User;
+import com.accenture.rishikeshpoorun.dto.RentalDto;
 import com.accenture.rishikeshpoorun.exceptions.CustomerNotFoundException;
 import com.accenture.rishikeshpoorun.services.CustomerService;
 import com.accenture.rishikeshpoorun.services.RentalService;
 
 @Controller
 @RequestMapping("/secured/user")
+@Secured(value= {"ROLE_ADMIN"})
 public class AdminController_User {
 	
 	@Autowired 
@@ -78,7 +80,7 @@ public class AdminController_User {
 	}
 	
 	@GetMapping(value="/update/{userId}")
-	public String goToUpdateUserPage(@PathVariable("userId") Long userId, Model model) {
+	public String goToUpdateUserProfile(@PathVariable("userId") Long userId, Model model) {
 		try {
 			User u = customerService.findById(userId);
 			model.addAttribute("user", u);
@@ -96,10 +98,15 @@ public class AdminController_User {
 		
 		try {
 			User u = customerService.findById(userId);
-			List<Car> rentedCar = rentalService.carsRentedByUser(userId);
+			List<Rental> rentalList = rentalService.allRentalByUserId(userId);
+			List<RentalDto> rentalDtoList = new ArrayList<>();
+			for(Rental r: rentalList) {
+				rentalDtoList.add(new RentalDto(r));
+			}
+			model.addAttribute("rentalDtoList", rentalDtoList);
 			model.addAttribute("user", u);
-			model.addAttribute("rentalList", rentedCar);
-			model.addAttribute("rent", new Rental());
+			model.addAttribute("rentalList", rentalList);
+			model.addAttribute("rentDto", new RentalDto());
 			
 		} catch (CustomerNotFoundException e) {
 			model.addAttribute("status", e.getLocalizedMessage());

@@ -14,43 +14,30 @@
 
 <!-- Page content -->
 <div class="container mt-4">
-    <h1> Car Profile
-    <a role="button" class="btn btn-outline-primary"
-                th:href="'/secured/car/update/'+${car.carId}">Edit Car</a>
-    </h1>
-    <table class="table">
-    	<tbody>
-    		<tr>
-    			<td>Car ID:</td>
-    			<td th:text="${car.carId}" style="font-weight: bold;">Car ID</td>
-    			<td>Registration Number:</td>
-    			<td th:text="${car.registrationNumber}" style="font-weight: bold;">Registration Number</td>
-    		</tr>
-    		<tr>
-    			<td>Model: </td>
-    			<td th:text="${car.model}" style="font-weight: bold;">Model</td>
-    			<td>Rental Price: </td>
-    			<td th:text= "${car.pricePerDay}" style="font-weight: bold;"> Price</td>
-    		</tr>
-    		
-    	</tbody>
-    </table>
-    <p></p>
-    <h3 class="text-primary">List of Rentals</h3>
-       
-    <!-- Rental table -->
+    <h3 class="text-primary">Rental Interface
+        <!-- Display Add button only for admin users -->
+        <a role="button" class="btn btn-outline-primary"
+                href="/secured/rental/add">Add</a>
+                <a role="button" class="btn btn-outline-primary"
+                href="/secured/rental/all">View All</a>
+    </h3>
+	<!-- Status -->
+	<h4 class="text-primary">
+     	<span class="badge badge-primary" th:text="${status}"></span></h4>
+     	
+   <!-- Rental table -->
     <table class="table">
         <thead th:replace="fragments/rentalTableHeader :: rental-table-header"></thead>
         
         <tbody>
         <!-- Rental Search Row -->
-        <tr th:replace="fragments/rentalQueryRow :: rental-query-row"></tr>
+                <tr th:replace="fragments/rentalQueryRow :: rental-query-row"></tr>
         
         <!-- Rental list per row -->
         <tr th:replace="fragments/populateRentalTable :: populate-rental-table"></tr>
         </tbody>
     </table>
-    
+        
 
 </body>
 </html>
