@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import com.accenture.rishikeshpoorun.dao.entities.Car;
@@ -131,11 +133,10 @@ public class CarService {
 		return ReadFileUtil.readCSVToCar(fileName);
 	}
 
-	public void saveListToDatabase(List<Car> list) {
+	
+	
 
-		for (Car c : list) {
-			carRepo.save(c);
-		}
-	}
+	
+	
 
 }

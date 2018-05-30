@@ -166,18 +166,21 @@ public class AdminController_Car {
 		return "secured_page/carList";
 	}
 	
-
+	
 	@Profile(value = "dev")
 	@PostConstruct
 	private void populateCarDatabase() {
 		String fileName = "/Users/rishikesh.poorun/OneDrive - Accenture/Spring Boot Project/carrental/src/main/resources/files/carsDev.csv";
 		try {
 			List<Car> list = carService.readCSVToCar(fileName);
-			carService.saveListToDatabase(list);
+			for (Car c : list) {
+				carService.saveCar(c);
+			}
 		} catch (FileNotFoundException e) {
 		} catch (IOException e) {
 		}
 
 	}
 
+	
 }
