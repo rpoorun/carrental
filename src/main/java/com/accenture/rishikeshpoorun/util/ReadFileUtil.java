@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +63,26 @@ public class ReadFileUtil {
 
 		br.close();
 		file.close();
+		return list;
+	}
+
+	public static List<Car> importCSV(InputStream file) throws NumberFormatException, IOException {
+		Reader fr = new InputStreamReader(file);
+		BufferedReader br = new BufferedReader(fr);
+
+		List<Car> list = new ArrayList<>();
+		String str = null;
+		while ((str = br.readLine()) != null) {
+			String[] args = str.split(",");
+			Car e = new Car();
+			e.setRegistrationNumber(args[0]);
+			e.setModel(args[1]);
+			e.setPricePerDay(Double.parseDouble(args[2]));
+			list.add(e);
+		}
+		br.close();
+		fr.close();
+		
 		return list;
 	}
 

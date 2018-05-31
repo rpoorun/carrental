@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.accenture.rishikeshpoorun.dao.entities.Car;
@@ -27,6 +28,7 @@ import com.accenture.rishikeshpoorun.dto.TextDto;
 import com.accenture.rishikeshpoorun.exceptions.CarNotFoundException;
 import com.accenture.rishikeshpoorun.services.CarService;
 import com.accenture.rishikeshpoorun.services.RentalService;
+import com.accenture.rishikeshpoorun.util.ReadFileUtil;
 
 @Controller
 @RequestMapping(value = "/secured/car")
@@ -171,7 +173,19 @@ public class AdminController_Car {
 	
 	
 	@GetMapping("/csvFileTocar")
-	public String goToCSVReaderPage(Model model) {
+	public String goToCSVReaderPage(Model model, MultipartFile file) {
+		
+		List<Car> list;
+		try {
+			list = ReadFileUtil.importCSV(file.getInputStream());
+			for (Car c : list) {
+				carService.saveCar(c);
+			}
+		
+		} catch (IOException e) {
+			model.addAttribute("status", e.getLocalizedMessage());
+		}
+		
 		
 		model.addAttribute("textDto", new TextDto());
 		return "secured_page/importCarCsv";
