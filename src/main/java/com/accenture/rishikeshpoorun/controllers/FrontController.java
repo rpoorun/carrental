@@ -21,8 +21,8 @@ public class FrontController {
 	public String goToAdminDashBoard() {
 		return "adminDashboard";
 	}
-	
-	@Secured(value= {"ROLE_CUSTOMER", "ROLE_ADMIN"})
+
+	@Secured(value= {"ROLE_ADMIN","ROLE_CUSTOMER"})
 	@GetMapping(value="/customer")
 	public String goToCustomerDashBoard() {
 		return "customerDashboard";

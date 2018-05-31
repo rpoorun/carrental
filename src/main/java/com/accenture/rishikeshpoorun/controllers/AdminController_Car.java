@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.accenture.rishikeshpoorun.dao.entities.Car;
 import com.accenture.rishikeshpoorun.dao.entities.Rental;
 import com.accenture.rishikeshpoorun.dto.RentalDto;
+import com.accenture.rishikeshpoorun.dto.TextDto;
 import com.accenture.rishikeshpoorun.exceptions.CarNotFoundException;
 import com.accenture.rishikeshpoorun.services.CarService;
 import com.accenture.rishikeshpoorun.services.RentalService;
@@ -164,6 +167,37 @@ public class AdminController_Car {
 
 		model.addAttribute("carlist", list);
 		return "secured_page/carList";
+	}
+	
+	
+	@GetMapping("/csvFileTocar")
+	public String goToCSVReaderPage(Model model) {
+		
+		model.addAttribute("textDto", new TextDto());
+		return "secured_page/importCarCsv";
+	}
+	
+	@PostMapping("/readTextarea")
+	public String readTextareaToCar(@ModelAttribute TextDto textDto, Model model) {
+		
+		String[] lines = textDto.getText().split("\n");
+		for(int i = 0; i< lines.length; i++) {
+			String[] args = lines[i].split(",");
+			Car c = new Car();
+			c.setRegistrationNumber(args[0]);
+			c.setModel(args[1]);
+			c.setPricePerDay(Double.parseDouble(args[2]));
+			
+			carService.saveCar(c);
+		}
+				
+		return showAllCar(model);
+	}
+	
+	@PostMapping("/readFileCarCsv")
+	public String readFileCarCsv(@RequestParam("file") CommonsMultipartFile FileData, Model model) {
+		
+		return showAllCar(model);
 	}
 	
 	

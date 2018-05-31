@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Include header, including javascript and CSS files. -->
+    <div th:replace="fragments/header :: header-head"></div>
+</head>
+<body>
+<!-- Include navigation bar in the page. -->
+<div th:replace="fragments/header :: header-nav"></div>
+
+<!-- Main content -->
+<div class="container mt-4">
+<h4 class="text-primary">
+     	<span class="badge badge-primary" th:text="${status}"></span></h4>
+     	
+     	
+    <form method="post" th:action="@{/secured/rental/search}" th:object="${rentalDto}" style="margin-left:20%; margin-right:20%">
+        <h3 class="text-primary">Search Query</h3>
+        
+         <div class="form-group">
+            <label for="nationalId">National ID: </label>
+            <input type="text" class="form-control" th:field="*{nationalId}" id="nationalId" placeholder="User National ID" th:readonly="${mode=='Update'}" />
+        </div>
+        
+        <div class="form-group">
+            <label for="name">Name: </label>
+            <input type="text" class="form-control" th:field="*{name}"  id="name" placeholder="User Name" />
+        </div>
+        
+        <div class="form-group">
+            <label for="sex">Gender:</label>
+            <select class="form-control" th:field="*{sex}"   id="sex" >
+            	<option value= "Male">Male</option>
+            	<option value= "Female">Female</option>
+            
+            </select>
+        </div>
+        
+         <div class="form-group">
+            <label for="dob">Date of Birth: </label>
+            <input type="date" class="form-control" th:field="*{dob}" th:value="*{dob}"  id="dob" placeholder="Date of Birth" />
+        </div>
+        
+        <div class="form-group">
+            <label for="registrationNumber">Registration Number: </label>
+            <input type="text" class="form-control" th:field="*{registrationNumber}" id="registrationNumber" placeholder="Car Registration Number" th:readonly="${mode == 'Update'}" />
+        </div>
+        <div class="form-group">
+            <label for="model">Model: </label>
+            <input type="text" class="form-control" th:field="*{model}"  id="model" placeholder="Car Model" th:readonly="${mode == 'Update'}"   />
+        </div>
+        <div class="form-group">
+            <label for="pricePerDay">Price per day:</label>
+            <input type="text" class="form-control" th:field="*{pricePerDay}"  id="pricePerDay" placeholder="Daily Rental Price"  />
+        </div>
+     
+     	<div class="form-group">
+            <label for="startDate">Rent Start Date: </label>
+            <input type="date" class="form-control" th:field="*{startDate}" th:value="*{startDate}"  id="dob" placeholder="Starting Date"  />
+        </div>
+        
+        <div class="form-group">
+            <label for="endDate">Rent End Date: </label>
+            <input type="date" class="form-control" th:field="*{endDate}" th:value="*{endDate}"  id="dob" placeholder="End Date"  />
+        </div>
+     	
+     	
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary col-sm-3">Search</button>
+        </div>
+    </form>
+</div>
+
+<!-- Footer -->
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

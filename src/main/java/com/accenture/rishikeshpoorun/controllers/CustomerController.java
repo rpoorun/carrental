@@ -14,8 +14,8 @@ import com.accenture.rishikeshpoorun.services.CarService;
 import com.accenture.rishikeshpoorun.services.RentalService;
 
 @Controller
-@RequestMapping("/customer")
-@Secured(value= {"ROLE_CUSTOMER", "ROLE_ADMIN"})
+@RequestMapping("/customer/car")
+@Secured(value= {"ROLE_ADMIN","ROLE_CUSTOMER"})
 public class CustomerController {
 	
 	@Autowired
@@ -24,7 +24,7 @@ public class CustomerController {
 	@Autowired
 	private RentalService rentalService;
 	
-	@GetMapping("/car/showallavail")
+	@GetMapping("/showallavail")
 	public String goToAvailCarList(Model model) {
 		
 		List<Car> carlist = rentalService.carAvailForRent();
