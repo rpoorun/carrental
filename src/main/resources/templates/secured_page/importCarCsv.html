@@ -28,7 +28,7 @@
               </p>
             </div>
             <div class="card-footer">
-            <form method="post" action="@{/secured/car/csvFileTocar}" enctype="multipart/form-data">
+            <form method="post" th:action="@{/secured/car/readFileCarCsv}" enctype="multipart/form-data">
             <label class="btn btn-success">Browse
             <input type="file" name="file" class="btn btn-default btn-file" hidden />
             </label>
