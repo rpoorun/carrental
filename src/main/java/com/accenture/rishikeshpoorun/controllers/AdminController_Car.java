@@ -173,18 +173,7 @@ public class AdminController_Car {
 	
 	
 	@GetMapping("/csvFileTocar")
-	public String goToCSVReaderPage(Model model, MultipartFile file) {
-		
-		List<Car> list;
-		try {
-			list = ReadFileUtil.importCSV(file.getInputStream());
-			for (Car c : list) {
-				carService.saveCar(c);
-			}
-		
-		} catch (IOException e) {
-			model.addAttribute("status", e.getLocalizedMessage());
-		}
+	public String goToCSVReaderPage(Model model) {
 		
 		
 		model.addAttribute("textDto", new TextDto());
@@ -209,7 +198,18 @@ public class AdminController_Car {
 	}
 	
 	@PostMapping("/readFileCarCsv")
-	public String readFileCarCsv(@RequestParam("file") CommonsMultipartFile FileData, Model model) {
+	public String readFileCarCsv(@RequestParam("file") MultipartFile file, Model model) {
+		List<Car> list;
+		try {
+			list = ReadFileUtil.importCSV(file.getInputStream());
+			for (Car c : list) {
+				carService.saveCar(c);
+			}
+		
+		} catch (IOException e) {
+			model.addAttribute("status", e.getLocalizedMessage());
+		}
+		
 		
 		return showAllCar(model);
 	}
