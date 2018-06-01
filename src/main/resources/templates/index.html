@@ -51,8 +51,18 @@
               <li class="list-group-item">Line 1</li>
               <li class="list-group-item">Line 2>
               <li class="list-group-item">Line 3</li>
+              
+              <!-- Changes the access based on the roles -->
               <li class="list-group-item">
-                <a href="/customer" class="btn btn-primary">Sign In!</a>
+              	<span sec:authorize="isAnonymous()">
+                	<a href="/customer" class="btn btn-primary">Sign In!</a>
+                </span>
+                <span sec:authorize="hasRole('CUSTOMER')">
+                	<a href="/customer" class="btn btn-success">View</a>
+                </span>
+                <span sec:authorize="hasRole('ADMIN')">
+                	<a href="/customer" class="btn btn-warning">Access</a>
+                </span>
               </li>
             </ul>
           </div>
@@ -68,8 +78,18 @@
               <li class="list-group-item">Line 1</li>
               <li class="list-group-item">Line 2</li>
               <li class="list-group-item">Line 3</li>
+              
+              <!-- Changes the access based on the roles -->
               <li class="list-group-item">
-                <a href="/secured" class="btn btn-primary">Sign In!</a>
+                 	<span sec:authorize="isAnonymous()">
+                	<a href="/secured" class="btn btn-primary">Sign In!</a>
+                </span>
+                <span sec:authorize="hasRole('CUSTOMER')">
+                	<a href="/secured" class="btn btn-primary disabled" >N/A</a>
+                </span>
+                <span sec:authorize="hasRole('ADMIN')">
+                	<a href="/secured" class="btn btn-success">Access</a>
+                </span>
               </li>
             </ul>
           </div>
