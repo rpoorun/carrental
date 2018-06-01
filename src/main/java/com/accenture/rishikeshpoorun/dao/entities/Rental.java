@@ -42,6 +42,16 @@ public class Rental {
 	@JoinColumn(name="CAR_RENTED_ID")
 	private Car car;
 
+	@Column(name="CHARGE_AMOUNT")
+	private Double charges;
+
+	public Double getCharges() {
+		return charges;
+	}
+
+	public void setCharges(Double charges) {
+		this.charges = charges;
+	}
 
 	public Long getRentalId() {
 		return rentalId;

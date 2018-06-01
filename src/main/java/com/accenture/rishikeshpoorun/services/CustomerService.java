@@ -7,9 +7,10 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.accenture.rishikeshpoorun.dao.entities.Car;
 import com.accenture.rishikeshpoorun.dao.entities.User;
 import com.accenture.rishikeshpoorun.dao.repositories.UserRepo;
 import com.accenture.rishikeshpoorun.exceptions.CustomerNotFoundException;
@@ -19,6 +20,9 @@ import com.accenture.rishikeshpoorun.util.ReadFileUtil;
 @Transactional
 public class CustomerService {
 
+	@Autowired
+	private BCryptPasswordEncoder encoder; 
+	
 	private UserRepo userRepo;
 
 	public CustomerService(UserRepo userRepo) {
@@ -27,25 +31,33 @@ public class CustomerService {
 
 	public boolean saveCustomer(User customer) {
 			User fetch = userRepo.findByNationalId(customer.getNationalId());
-		if(fetch != null) {
-			fetch.setName(customer.getName());
-			fetch.setSex(customer.getSex());
-			fetch.setPassword(customer.getPassword());
-			fetch.setRole(customer.getRole());
 			
+		if(fetch == null) {
+			User u = new User();
+			u.setName(customer.getName());
+			u.setNationalId(customer.getNationalId());
+			u.setSex(customer.getSex());
+			u.setPassword(encoder.encode(customer.getPassword()));
+			u.setRole(customer.getRole());
+			userRepo.save(u);
+			return true;
 		}
 		
-		else if (userRepo.save(customer) == null) {
-			return false;
-		} 
-
-			return true;
+		return false;
+		
 		
 	}
 
+	/**
+	 * THIS METHOD CANNOT UPDATE PASSWORD
+	 * @param customer
+	 * @return
+	 * @throws CustomerNotFoundException
+	 */
 	public boolean updateCustomer(User customer) throws CustomerNotFoundException {
 
 		if (userRepo.findByNationalId(customer.getNationalId()) != null) {
+			customer.setPassword(encoder.encode(customer.getPassword()));
 			userRepo.save(customer);
 
 		} else {

@@ -113,6 +113,12 @@ public class User {
 	public void setRentals(List<Rental> rentals) {
 		this.rentals = rentals;
 	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", nationalId=" + nationalId + ", password=" + password + ", name=" + name
+				+ ", role=" + role + ", sex=" + sex + ", dob=" + dob + ", rentals=" + rentals + "]";
+	}
 	
 	
 	

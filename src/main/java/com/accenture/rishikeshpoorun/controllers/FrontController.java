@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.accenture.rishikeshpoorun.dto.RentalDto;
+
 
 @Controller
 public class FrontController {

@@ -25,6 +25,7 @@ import com.accenture.rishikeshpoorun.exceptions.CarNotAvailException;
 import com.accenture.rishikeshpoorun.exceptions.CarNotFoundException;
 import com.accenture.rishikeshpoorun.exceptions.CustomerNotFoundException;
 import com.accenture.rishikeshpoorun.exceptions.DateConflictException;
+import com.accenture.rishikeshpoorun.exceptions.RentalEntryNotFoundException;
 import com.accenture.rishikeshpoorun.exceptions.UserStillOnLentException;
 import com.accenture.rishikeshpoorun.services.CarService;
 import com.accenture.rishikeshpoorun.services.CustomerService;
@@ -187,7 +188,12 @@ public class AdminController_Rental {
 	@GetMapping("/releasing/{rentalId}")
 	public String releaseRentedCar(@PathVariable("rentalId") Long rentalId, Model model){
 		
-		rentalService.updateRentalEntry(rentalId);
+		
+		try {
+			rentalService.releaseCar(rentalId);
+		} catch (RentalEntryNotFoundException e) {
+			model.addAttribute("status", e.getMessage());
+		}
 		List<Rental> rentalList = rentalService.allCurrentCarOnRent();
 		model.addAttribute("mode", "- Cars currently on rent");
 		model.addAttribute("rentalList", rentalList);

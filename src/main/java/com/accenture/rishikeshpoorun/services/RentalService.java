@@ -140,7 +140,7 @@ public class RentalService {
 	}
 
 	// Method() to get the total rent amount for the cars rented and returned for
-	// given User's JAVA ID
+	// given User ID
 	public Double amountForUserRented(Long userId) {
 		Double total = 0.0;
 
@@ -234,13 +234,16 @@ public class RentalService {
 		validateDates(startDate, endDate);
 		isUserStillOnLent(userId);
 		isCarAvailForRent(carId);
-
+		
+		Long days = ChronoUnit.DAYS.between(startDate, endDate);
+		Double charges = carRepo.findById(carId).get().getPricePerDay() * days;
 		Rental r = new Rental();
 
 		r.setCar(carRepo.findById(carId).get());
 		r.setUser(customerRepo.findById(userId).get());
 		r.setStartDate(startDate);
 		r.setEndDate(endDate);
+		r.setCharges(charges);
 		r.setReturned(false);
 
 		rentalRepo.save(r);
@@ -269,7 +272,7 @@ public class RentalService {
 			String status = String.format("This car [Registration: %s] is not available and on rent till: %s",
 					carRepo.findById(carId).get().getRegistrationNumber(), rentalRepo.isCarAvail(carId).getEndDate());
 
-			throw new CarNotAvailException("This car [ " + carId + " ] is not available and is still on rent!");
+			throw new CarNotAvailException(status);
 		}
 
 	}
@@ -297,9 +300,10 @@ public class RentalService {
 	}
 
 	// Method to update the entry and release the car from user
-	public boolean updateRentalEntry(Long carId, Long userId) throws RentalEntryNotFoundException {
+	public boolean releaseCar(Long rentalId) throws RentalEntryNotFoundException {
 
-		Rental rtest = rentalRepo.findByUserAndCar(carId, userId);
+		
+		Rental rtest = rentalRepo.findById(rentalId).get();
 		if (rtest != null) {
 			rtest.setReturned(true);
 			rentalRepo.save(rtest);
@@ -312,6 +316,8 @@ public class RentalService {
 
 	public void updateRentalEntry(Long rentalId) {
 		// TODO Auto-generated method stub
+		//to changes changes 
+		//calculate new charges
 
 	}
 

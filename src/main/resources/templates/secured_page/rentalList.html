@@ -14,13 +14,23 @@
 
 <!-- Page content -->
 <div class="container mt-4">
-    <h3 class="text-primary">Rental Interface <span style="font-size: 0.7em" th:text="${mode}"></span>
+    
+    <h3 style="display:inline" class="text-primary">Rental Interface <span style="font-size: 0.7em" th:text="${mode}"></span>
         <!-- Display Add button only for admin users -->
         <a role="button" class="btn btn-outline-primary"
                 href="/secured/rental/allocate">Add</a>
                 <a role="button" class="btn btn-outline-primary"
                 href="/secured/rental/all">View All</a>
     </h3>
+    
+    <div style="float:right">
+    	<span class="text-primary">Entries Count: </span> &nbsp;&nbsp;
+    	<b><span th:text="${#lists.size(rentalList)}"></span></b> &nbsp;&nbsp; 
+		<span class="text-primary">Total Amount: </span> &nbsp;&nbsp;  
+		<b>Rs <span  th:text="${#aggregates.sum(rentalList.![charges])}"></span></b>  
+    </div>
+    
+    
 	<!-- Status -->
 	<h4 class="text-primary">
      	<span class="badge badge-primary" th:text="${status}"></span></h4>

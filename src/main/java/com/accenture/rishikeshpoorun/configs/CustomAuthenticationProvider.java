@@ -22,6 +22,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 	private UserRepo userRepo;
 	private PasswordEncoder passwordEncoder;
+	private static String id;
 
 	@Autowired
 	public CustomAuthenticationProvider(UserRepo userRepo, PasswordEncoder passwordEncoder) {
@@ -33,49 +34,52 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		// Get UserName and password from loginForm
-		String username = authentication.getName();
+		String nationalId = authentication.getName();
 		String password = authentication.getCredentials().toString();
+		System.out.println(nationalId);
 
 		// TODO: Optional<User> op = userRepo.findByNationalId(username);
 
-		User uTest = userRepo.findByNationalId(username);
-
-		if (uTest != null) {
-
-			// Get encoded password from database
-			String encodedPassword = uTest.getPassword();
+		User uTest = userRepo.findByNationalId(nationalId);
+		
+		List authorities = getAuthorities(uTest);
+		
+		// Get encoded password from database
+		String encodedPassword = uTest.getPassword();
+		
+		if(passwordEncoder.matches(password, encodedPassword)) {
 			
-			List<GrantedAuthority> authorities = new ArrayList<>();
-			
-			if(uTest.getRole().equalsIgnoreCase("ADMIN")) {
-				authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-				authorities.add(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
-			}
-			
-			if(uTest.getRole().equalsIgnoreCase("CUSTOMER")) {
-				authorities.add(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
-			}
-
-			// Compares the encrypted password from database to the password from form
-			if (passwordEncoder.matches(password, encodedPassword)) {
-				return new UsernamePasswordAuthenticationToken(uTest.getNationalId(), encodedPassword);
-			}
-			else {
-				throw new BadCredentialsException("Invalid Password");
-			}
-			
-			
-			
-		} throw new BadCredentialsException("Invalid credentials");
+			return new UsernamePasswordAuthenticationToken(nationalId, encodedPassword, authorities);
+		}
 
 		
-
-	}
-
-	@Override
-	public boolean supports(Class<?> authentication) {
-		// TODO Auto-generated method stub
-		return authentication.equals(UsernamePasswordAuthenticationToken.class);
-	}
+		throw new BadCredentialsException("Invalid credentials");
 
 }
+
+	
+	
+	  private List<GrantedAuthority> getAuthorities(User user) {
+	        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+	        grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().toString()));
+	        
+	        return grantedAuthorities;
+	    }
+
+	  @Override
+	    public boolean supports(Class<?> authentication) {
+	        return authentication.equals(
+	                UsernamePasswordAuthenticationToken.class);
+	    }
+
+
+		public static String getId() {
+			return id;
+		}
+
+
+		public static void setId(String id) {
+			CustomAuthenticationProvider.id = id;
+		}
+	}
+

@@ -6,6 +6,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true, securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	/**
@@ -33,8 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	
         http.csrf().disable()
             .authorizeRequests()
-            .antMatchers("/customer").hasRole("CUSTOMER")
-            .antMatchers("/customer").hasRole("ADMIN")
+            .antMatchers("/customer").hasAnyRole("CUSTOMER", "ADMIN")
             .anyRequest().authenticated()
             .and()
             .formLogin()
@@ -69,6 +69,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .and()
 	        .formLogin()
 	        .permitAll();
+        
+        http.csrf().disable()
+        .authorizeRequests()
+        .antMatchers("/signedIndex").hasAnyRole("CUSTOMER", "ADMIN")
+        .anyRequest().authenticated()
+        .and()
+        .formLogin()
+        .loginPage("/login")
+        .permitAll();
+       
 	      
     }
 
@@ -76,7 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * In memory authentication configuration using AuthenticationManagerBuilder
      */
-    //*/
+    /*/
      @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication().withUser("customer").password("1234").roles("CUSTOMER");
@@ -104,55 +114,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * Encoder bean definition.
      * @return Encoder bean instance
      */
+//    @Bean
+//    public PasswordEncoder encoder(){
+//        
+//    	return  NoOpPasswordEncoder.getInstance();
+//    }
+    
     @Bean
-    public PasswordEncoder encoder(){
-        // Use a PasswordEncoder not performing any encoding. Do not use this one in production. BCryptEncoder is recommended
-       // 
-    	return  NoOpPasswordEncoder.getInstance();
-        // return new BCryptEncoder
-    	//return BCryptPasswordEncoder;
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
     }
     
-   /* @Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-    }*/
-	
-    
-    
-/*
- * Method by Yoven incomplete
- */
-	
-//	@Override
-//	protected void configure(HttpSecurity http) throws Exception {
-//
-//		http.authorizeRequests().antMatchers("/index").permitAll().anyRequest().authenticated();
-//
-//		http.authorizeRequests().antMatchers("/secured").hasRole("ADMIN").anyRequest().authenticated().and().formLogin()
-//				.loginPage("/login").permitAll();
-//
-//		http.authorizeRequests().antMatchers("/rent").hasRole("USER").anyRequest().authenticated().and().formLogin()
-//				.loginPage("/login").permitAll();
-//	}
-//
-//	// In Memory Authentication
-//	@Autowired
-//	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.inMemoryAuthentication().withUser("admin").password("1234").roles("ADMIN");
-//		auth.inMemoryAuthentication().withUser("customer").password("1234").roles("USER");
-//	}
-//
-//	// No Password Encoder
-//	@SuppressWarnings("deprecation")
-//	@Bean
-//	public PasswordEncoder encoder() {
-//		return NoOpPasswordEncoder.getInstance();
-//	}
-//
-//	
-//	@Bean
-//	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-//		return new BCryptPasswordEncoder();
-//	}
 }
+	

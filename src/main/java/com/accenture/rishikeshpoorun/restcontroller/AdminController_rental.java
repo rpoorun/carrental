@@ -116,7 +116,7 @@ public class AdminController_rental {
 		}
 		
 			try {
-				status = rentalService.updateRentalEntry(r.getCar().getCarId(), r.getUser().getUserId());
+				status = rentalService.releaseCar(r.getRentalId());
 			} catch (RentalEntryNotFoundException e) {
 				
 				return e.getMessage();

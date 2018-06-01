@@ -1,40 +1,42 @@
 <tr th:fragment="rental-query-row">
         <form method="post" th:action="@{/secured/rental/find}" th:object="${rentDto}">
-          <td><input type="text" class="form-control" th:field="*{rentalId}" id="rentalId" list="rentals" placeholder="Rental Entry ID" />
+          <td><input  style="width: 80px" type="text" class="form-control" th:field="*{rentalId}" id="rentalId" list="rentals" placeholder="ID" />
           		<datalist id="rentals">
           			<th:block th:each ="rent: ${rentalList}">
           			<option th:value ="${rent.rentalId}"/>
           			</th:block>
           		</datalist>
           </td>
-           <td><input type="text" class="form-control" th:field="*{registrationNumber}" id="registrationNumber" list="regNums" placeholder="Car Registration" />
+           <td><input type="text" class="form-control" th:field="*{registrationNumber}" id="registrationNumber" list="regNums" placeholder="Car Reg" />
            		<datalist id="regNums">
           			<th:block th:each ="rent: ${rentalList}">
           			<option th:value ="${rent.car.registrationNumber}"/>
           			</th:block>
           		</datalist>
           		</td>
-          		<td><input type="text" class="form-control" th:field="*{nationalId}" id="nationalId" list="nics" placeholder="National ID" />
+          		<td><input type="text" class="form-control" th:field="*{nationalId}" id="nationalId" list="nics" placeholder="NID" />
            		<datalist id="nics">
           			<th:block th:each ="rent: ${rentalList}">
           			<option th:value ="${rent.user.nationalId}"/>
           			</th:block>
           		</datalist>
           		</td>
-           <td><input type="date" class="form-control" th:field="*{startDate}" id="startDate" list="sDates" placeholder="Start Date"  />
+           <td><input  style="width: 100px" type="date" class="form-control" th:field="*{startDate}" id="startDate" list="sDates" />
            		<datalist id="sDates">
           			<th:block th:each ="rent: ${rentalList}">
           			<option th:value ="${rent.startDate}"/>
           			</th:block>
           		</datalist>
           		</td>
-          		 <td><input type="date" class="form-control" th:field="*{endDate}" id="eDates" list="eDates" placeholder="End Date"  />
+          		 <td><input  style="width: 100px" type="date" class="form-control" th:field="*{endDate}" id="eDates" list="eDates"  />
            		<datalist id="eDates">
           			<th:block th:each ="rent: ${rentalList}">
           			<option th:value ="${rent.endDate}"/>
           			</th:block>
           		</datalist>
           		</td>
+          		<td><input type="number" class="form-control" th:field="*{charges}" id="changes"  placeholder="Amount"  />
+           		    		</td>
           		 <td><input type="number" class="form-control" th:field="*{returned}" id="returned" list="retOpt" placeholder="Ruturned"  />
            		<datalist id="retOpt">
           			<option value="0">False</option>

@@ -5,6 +5,7 @@
             <td th:text="${rent.user.nationalId}">National ID</td>
             <td th:text="${rent.startDate}">Start Date</td>
             <td th:text="${rent.endDate}">End Date</td>
+            <td th:text="${rent.charges}">Charge Amount</td>
             <td th:text="${rent.returned}">Returned</td>
             
             <td class="text-right" sec:authorize="hasRole('ADMIN')">

@@ -38,6 +38,15 @@ public class RentalDto {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate endDate;
 	private boolean returned;
+	private Double charges;
+	public Double getCharges() {
+		return charges;
+	}
+
+	public void setCharges(Double charges) {
+		this.charges = charges;
+	}
+
 	private String sex;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

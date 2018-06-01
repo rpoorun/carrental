@@ -231,12 +231,26 @@ public class AdminController_User {
 	@Profile(value = "dev")
 	@PostConstruct
 	private void populateUserDatabase() {
-		String fileName = "/Users/rishikesh.poorun/OneDrive - Accenture/Spring Boot Project/carrental/src/main/resources/files/usersDev.csv";
+//		String fileName = "/Users/rishikesh.poorun/OneDrive - Accenture/Spring Boot Project/carrental/src/main/resources/files/usersDev.csv";
+//		try {
+//			List<User> list = customerService.readCSVToCar(fileName);
+//			customerService.saveListToDatabase(list);
+//		} catch (FileNotFoundException e) {
+//		} catch (IOException e) {
+//		}
+		
+		User admin = new User();
+		admin.setName("poorun");
+		admin.setNationalId("poorun");
+		admin.setPassword("poorun");
+		admin.setRole("ROLE_ADMIN");
+		customerService.saveCustomer(admin);
+		
 		try {
-			List<User> list = customerService.readCSVToCar(fileName);
-			customerService.saveListToDatabase(list);
-		} catch (FileNotFoundException e) {
-		} catch (IOException e) {
+			System.out.println(customerService.findByNationalId("poorun").toString());
+		} catch (CustomerNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
 		}
 
 	}
