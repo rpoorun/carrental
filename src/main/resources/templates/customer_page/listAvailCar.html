@@ -44,7 +44,7 @@
              <a role="button" class="btn btn-outline-success" th:href="'/customer/car/rentRequest/'+${car.carId}"  onclick="alert('You are about to rent a car! Do you wish to proceed?')">Rent Now</a>
                 </span>
                 <span sec:authorize="hasRole('ROLE_ADMIN')">
-                <a role="button" class="btn btn-outline-success" th:href="'/secured/car/allocate/'+${car.carId}">Allocate</a>
+                <a role="button" class="btn btn-outline-success" th:href="'/secured/rental/allocate/'+${car.carId}">Allocate</a>
             </span>
             </td>
         

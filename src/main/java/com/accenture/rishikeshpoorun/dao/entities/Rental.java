@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 @Entity
 @Table(name = "RENTAL_TABLE")
@@ -22,9 +24,11 @@ public class Rental {
 	private Long rentalId;
 
 	@Column(name = "START_DATE")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate startDate;
 
 	@Column(name = "END_DATE")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate endDate;
 
 	@Column(name = "RETURNED")

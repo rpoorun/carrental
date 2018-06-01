@@ -43,12 +43,21 @@ public class RentalService {
 		return list;
 	}
 
-	public List<User> userRentOnPeriod(LocalDate startDate, LocalDate endDate) {
-		List<User> list = new ArrayList<>();
-
-		list = rentalRepo.userRentOnPeriod(startDate, endDate);
-
-		return list;
+	public List<User> userRentOnDates(LocalDate startDate, LocalDate endDate) {
+		return rentalRepo.userRentOnDates(startDate, endDate);
+	}
+	
+	public List<User> userRentBetweenPeriod(LocalDate startDate, LocalDate endDate) {
+		return rentalRepo.userRentBetweenPeriod(startDate, endDate);
+	}
+	
+	
+	public List<Rental> rentedBetweenPeriod(LocalDate startDate, LocalDate endDate){
+		return rentalRepo.rentalBetweenPeriod(startDate, endDate);
+	}
+	
+	public List<Rental> rentedOnDates(LocalDate startDate, LocalDate endDate){
+		return rentalRepo.rentalOnDates(startDate, endDate);
 	}
 
 	// Method() to get the total rent amount for all cars rented and returned
@@ -229,7 +238,7 @@ public class RentalService {
 
 		Rental r = new Rental();
 
-		r.setCar(carRepo.findById(userId).get());
+		r.setCar(carRepo.findById(carId).get());
 		r.setUser(customerRepo.findById(userId).get());
 		r.setStartDate(startDate);
 		r.setEndDate(endDate);
@@ -243,33 +252,34 @@ public class RentalService {
 	private void isUserStillOnLent(Long userId) throws UserStillOnLentException {
 		// if user has no car rented, null is returned
 		if (rentalRepo.isUserOnLent(userId) != null) {
-			throw new UserStillOnLentException("This user already has a car on rent!");
+			String status = String.format("This User [ID: %o Name: %s NIC: %s] is already renting a car", userId, customerRepo.findById(userId).get().getName(), customerRepo.findById(userId).get().getNationalId());
+			throw new UserStillOnLentException(status);
 		}
 	}
 
 	private void isCarAvailForRent(Long carId) throws CarNotAvailException {
 		// if the car is available for rent, null is returned
 		if (rentalRepo.isCarAvail(carId) != null) {
-			throw new CarNotAvailException("This car is not available and is still on rent!");
+			throw new CarNotAvailException("This car [ "+carId+" ] is not available and is still on rent!");
 		}
 
 	}
 
 	private void validateDates(LocalDate startDate, LocalDate endDate) throws DateConflictException {
 		if (startDate.isAfter(endDate)) {
-			throw new DateConflictException("The Start Date cannot occur after the End Date!");
+			throw new DateConflictException("The Start Date ["+startDate.toString()+"] cannot occur after the End Date!");
 		}
 
 		if (startDate.isBefore(LocalDate.now())) {
-			throw new DateConflictException("The Start Date must be a futur date!");
+			throw new DateConflictException("The Start Date ["+startDate.toString()+"] must be a futur date!");
 		}
 
 		if (endDate.isBefore(LocalDate.now())) {
-			throw new DateConflictException("The End Date cannot occur prior the Start Date!");
+			throw new DateConflictException("The End Date ["+endDate.toString()+"] cannot occur prior the Start Date!");
 		}
 
 		if (startDate.equals(endDate)) {
-			throw new DateConflictException("Start Date and End Date cannot be on the same day!");
+			throw new DateConflictException("Start Date ["+startDate.toString()+"] and End Date ["+endDate.toString()+"] cannot be on the same day!");
 		}
 
 	}
@@ -286,6 +296,11 @@ public class RentalService {
 			throw new RentalEntryNotFoundException("Cannot find the specified rental entry!");
 		}
 
+	}
+	
+	public void updateRentalEntry(Long rentalId) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	public List<Rental> showAllRental() {
@@ -334,5 +349,12 @@ public class RentalService {
 		rentalRepo.save(r);
 		
 	}
+
+	public List<Rental> allCurrentCarOnRent() {
+		// TODO Auto-generated method stub
+		return rentalRepo.findAllNotReturned();
+	}
+
+	
 
 }

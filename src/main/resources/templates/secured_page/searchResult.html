@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<!-- Namespace for Securty extension for thymeleaf is added enabling the use of sec:authentication and sec:authorize-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <!-- Include header, including javascript and CSS files. -->
+    <div th:replace="fragments/header :: header-head"/>
+    
+    
+     
+
+    
+</head>
+<body>
+<!-- Include navigation bar in the page. -->
+<div th:replace="fragments/header :: header-nav"/>
+
+<!-- Page content -->
+<div class="container mt-4">
+<h2 style="display:inline">Query Results</h2>
+	<!-- Display New Search button -->
+    <a role="button" class="btn btn-outline-primary" href="/secured/rental/search">New Query</a>
+    
+    <!-- Status -->
+	<h4 class="text-primary">
+     	<span class="badge badge-primary" th:text="${status}"></span></h4>
+     	
+     	
+    <!-- Display results for User Entities -->
+    <h4 class="text-primary">Users:</h4>
+	
+	
+     	
+    <!-- User table -->
+    <table class="table">
+        <thead th:replace="fragments/userTableHeader :: user-table-header"></thead>
+        
+        <tbody>
+        <!-- User list per row -->
+        <tr th:replace="fragments/populateUserTable :: populate-user-table"></tr>
+        
+        </tbody>
+    </table>
+    
+    
+    
+     <!-- Display results for Car Entities -->
+      <h4 class="text-primary">Cars:</h4>
+	<!-- Status -->
+	<h4 class="text-primary">
+     	<span class="badge badge-primary" th:text="${status}"></span></h4>
+     	
+    <!-- Car table -->
+    <table class="table">
+       <thead th:replace="fragments/carTableHeader :: car-table-header"></thead>
+        
+        <tbody>
+        
+        <!-- Car list per row -->
+        <tr th:replace="fragments/populateCarTable :: populate-car-table"></tr>
+        </tbody>
+    </table>
+    
+    
+    <!-- Display results for Car Entities -->
+    <h3 class="text-primary">Rentals:</h3>
+	
+   <!-- Rental table -->
+    <table class="table">
+        <thead th:replace="fragments/rentalTableHeader :: rental-table-header"></thead>
+        
+        <tbody>
+        <!-- Rental list per row -->
+        <tr th:replace="fragments/populateRentalTable :: populate-rental-table"></tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>
+
+
+

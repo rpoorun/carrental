@@ -49,7 +49,7 @@ public class AdminController_rental {
 		LocalDate startDate = rent.getStartDate();
 		LocalDate endDate = rent.getEndDate();
 
-		return rentalService.userRentOnPeriod(startDate, endDate);
+		return rentalService.userRentBetweenPeriod(startDate, endDate);
 	}
 
 	@GetMapping("/totalamount")

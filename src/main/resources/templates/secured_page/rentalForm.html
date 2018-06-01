@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Include header, including javascript and CSS files. -->
+    <div th:replace="fragments/header :: header-head"></div>
+</head>
+<body>
+<!-- Include navigation bar in the page. -->
+<div th:replace="fragments/header :: header-nav"></div>
+
+<!-- Main content -->
+<div class="container mt-4">
+    <form method="post" th:action="@{/secured/rental/allocate}" th:object="${rentalDto}" style="margin-left:20%; margin-right:20%">
+        <h3 class="text-primary">Allocate Car <span class="text-primary" th:text="${mode}">Form</span></h3>
+        
+        <h3 class="text-primary">
+     	<span class="badge badge-primary" th:text="${status}"></span></h3>
+     	
+        <div class="form-group">
+            <label for="nationalId">User National ID: </label>
+            <input type="text" class="form-control" th:field="*{nationalId}" id="nationalId" list="nic" placeholder="User National ID" th:readonly="${mode == 'Update'}" required />
+            <datalist id="nic">
+          			<th:block th:each ="user: ${userlist}">
+          			<option th:value ="${user.nationalId}"/>
+          			</th:block>
+          		</datalist>
+        </div>
+        <div class="form-group">
+            <label for="registrationNumber">Car Registration Number: </label>
+            <input type="text" class="form-control" th:field="*{registrationNumber}" list="regNumbers" id="registrationNumber" placeholder="Car Registration" th:readonly="${mode == 'Update'}"  required />
+            <datalist id="regNumbers">
+          			<th:block th:each ="car: ${carlist}">
+          			<option th:value ="${car.registrationNumber}"/>
+          			</th:block>
+          		</datalist>
+        </div>
+        <div class="form-group">
+            <label for="startDate">Rent Start Date:</label>
+            <input type="date" class="form-control" th:field="*{startDate}"  id="startDate" placeholder="Rental Start Date" required />
+        </div>
+        
+         <div class="form-group">
+            <label for="endDate">Rent End Date:</label>
+            <input type="date" class="form-control" th:field="*{endDate}"  id="endDate" placeholder="Rental End Date" required />
+        </div>
+     
+     	
+     	
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary col-sm-3">Save</button>
+        </div>
+    </form>
+</div>
+
+<!-- Footer -->
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

@@ -17,8 +17,19 @@ public interface RentalRepo extends JpaRepository<Rental, Long> {
 	public List<Car> allCarsAvailForRent();
 	
 	@Query("SELECT u FROM User u WHERE u.userId IN (SELECT user FROM Rental r WHERE r.startDate =:startDate AND r.endDate=:endDate)")
-	public List<User> userRentOnPeriod(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+	public List<User> userRentOnDates(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
+	@Query("SELECT u FROM User u WHERE u.userId IN (SELECT user FROM Rental r WHERE r.startDate >=:startDate AND r.endDate <=:endDate)")
+	public List<User> userRentBetweenPeriod(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+	
+	@Query("SELECT r FROM Rental r WHERE r.startDate >=:startDate AND r.endDate <=:endDate")
+	public List<Rental> rentalBetweenPeriod(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+	
+	@Query("SELECT r FROM Rental r WHERE r.startDate =:startDate AND r.endDate =:endDate")
+	public List<Rental> rentalOnDates(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+	
+	
 	@Query("SELECT r FROM Rental r WHERE r.returned = true")
 	public List<Rental> rentedCarReturned();
 
@@ -60,5 +71,9 @@ public interface RentalRepo extends JpaRepository<Rental, Long> {
 	
 	@Query("SELECT r FROM Rental r WHERE r.user = (SELECT u FROM User u WHERE u.userId=:userId)")
 	public List<Rental> findAllByUserId(@Param("userId") Long userId);
+
+	@Query("SELECT r FROM Rental r WHERE r.returned = false")
+	public List<Rental> findAllNotReturned();
+
 
 }

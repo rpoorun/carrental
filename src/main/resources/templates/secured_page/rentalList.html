@@ -14,10 +14,10 @@
 
 <!-- Page content -->
 <div class="container mt-4">
-    <h3 class="text-primary">Rental Interface
+    <h3 class="text-primary">Rental Interface <span style="font-size: 0.7em" th:text="${mode}"></span>
         <!-- Display Add button only for admin users -->
         <a role="button" class="btn btn-outline-primary"
-                href="/secured/rental/add">Add</a>
+                href="/secured/rental/allocate">Add</a>
                 <a role="button" class="btn btn-outline-primary"
                 href="/secured/rental/all">View All</a>
     </h3>

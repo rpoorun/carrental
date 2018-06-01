@@ -3,6 +3,18 @@
 <head>
     <!-- Include header, including javascript and CSS files. -->
     <div th:replace="fragments/header :: header-head"></div>
+    
+    
+    <!-- JavaScript for password validation -->
+    <script>
+    function specificDatesCheck() {
+		 document.getElementById('messageSpecificDates').style.color="red";
+			document.getElementById('messageSpecificDates').innerHTML = "Please select date specification";
+			document.getElementById('specificDates').style ="border-color:red";
+		
+	}
+    
+    </script>
 </head>
 <body>
 <!-- Include navigation bar in the page. -->
@@ -10,12 +22,12 @@
 
 <!-- Main content -->
 <div class="container mt-4">
-<h4 class="text-primary">
-     	<span class="badge badge-primary" th:text="${status}"></span></h4>
-     	
+    	
      	
     <form method="post" th:action="@{/secured/rental/search}" th:object="${rentalDto}" style="margin-left:20%; margin-right:20%">
         <h3 class="text-primary">Search Query</h3>
+        <h4 class="text-primary">
+     	<span class="badge badge-warning" th:text="${status}"></span></h4>
         
          <div class="form-group">
             <label for="nationalId">National ID: </label>
@@ -53,15 +65,24 @@
             <label for="pricePerDay">Price per day:</label>
             <input type="text" class="form-control" th:field="*{pricePerDay}"  id="pricePerDay" placeholder="Daily Rental Price"  />
         </div>
-     
+     	
+     	<div class="form-group">
+            <label for="startDate">Date Specification: </label>
+            <span id='messageSpecificDates' class="badge badge-light"></span>
+            <select class="form-control" th:field="*{specificDates}" th:value="*{specificDates}" id="specificDates">
+            <option value="true">Query for specified dates</option>
+            <option value="false">Query in between dates</option>
+            </select>
+        </div>
+        
      	<div class="form-group">
             <label for="startDate">Rent Start Date: </label>
-            <input type="date" class="form-control" th:field="*{startDate}" th:value="*{startDate}"  id="dob" placeholder="Starting Date"  />
+            <input type="date" class="form-control" th:field="*{startDate}" th:value="*{startDate}"  id="dob" placeholder="Starting Date" onkeyup="specificDatesCheck()" />
         </div>
         
         <div class="form-group">
             <label for="endDate">Rent End Date: </label>
-            <input type="date" class="form-control" th:field="*{endDate}" th:value="*{endDate}"  id="dob" placeholder="End Date"  />
+            <input type="date" class="form-control" th:field="*{endDate}" th:value="*{endDate}"  id="dob" placeholder="End Date" onkeyup="specificDatesCheck()" />
         </div>
      	
      	

@@ -10,7 +10,7 @@
             <td class="text-right" sec:authorize="hasRole('ADMIN')">
                 <a role="button" class="btn btn-outline-primary" th:href="'/secured/rental/read/'+${rent.rentalId}">View</a>
                <span th:style="${rent.returned}?  'display:none' : 'display:inline' ">
-                <a role="button" id="releasebtn" class="btn btn-outline-success" th:href="'/secured/rental/released/'+${rent.rentalId}">
+                <a role="button" id="releasebtn" class="btn btn-outline-success" th:href="'/secured/rental/releasing/'+${rent.rentalId}">
                 Release</a>
                 </span>
             </td>

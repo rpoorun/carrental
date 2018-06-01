@@ -3,6 +3,7 @@ package com.accenture.rishikeshpoorun.dto;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import com.accenture.rishikeshpoorun.dao.entities.Car;
@@ -25,12 +26,21 @@ public class RentalDto {
 	private CarService carService;
 
 	private Long rentalId;
+	private Long carId;
 	private Car car;
 	private User user;
+	private boolean specificDates;
+	private Long userId;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate startDate;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate endDate;
 	private boolean returned;
 	private String sex;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dob;
 	private String nationalId;
 	private String registrationNumber;
@@ -65,6 +75,30 @@ public class RentalDto {
 
 		}
 
+	}
+	
+	public Long getCarId() {
+		return carId;
+	}
+
+	public void setCarId(Long carId) {
+		this.carId = carId;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public boolean isSpecificDates() {
+		return specificDates;
+	}
+
+	public void setSpecificDates(boolean specificDates) {
+		this.specificDates = specificDates;
 	}
 
 	public LocalDate getDob() {

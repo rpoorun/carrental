@@ -1,0 +1,15 @@
+<tr th:fragment="populate-user-table" th:each="user : ${userlist}" >
+       
+            <th scope="row" th:text="${user.nationalId}">National ID</th>
+            <td th:text="${user.name}">Name</td>
+            <td th:text="${user.sex}">Gender</td>
+            <td th:text="${user.dob}">Date of Birth</td>
+            <td th:text="${user.role}" >Role</td>
+            
+            <td class="text-right" sec:authorize="hasRole('ADMIN')">
+                <a role="button" class="btn btn-outline-primary" th:href="'/secured/user/read/'+${user.userId}">View</a>
+                <a role="button" class="btn btn-outline-primary" th:href="'/secured/user/update/'+${user.userId}">Edit</a>
+                <a role="button" class="btn btn-outline-primary" th:href="'/secured/user/delete/'+${user.userId}" onclick="alert('You are about to delet a user entry! Do you wish to proceed?')">Delete</a>
+            </td>
+          
+        </tr>

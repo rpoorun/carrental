@@ -1,0 +1,14 @@
+<tr th:fragment="populate-car-table" th:each="car : ${carlist}">
+						
+            <th scope="row" th:text="${car.registrationNumber}" >Registration Number</th>
+            <td th:text="${car.model}" >Model</td>
+            <td th:text="${car.pricePerDay}" >Rental Rate</td>
+            <td class="text-right">
+                <a role="button" class="btn btn-outline-primary" th:href="'/secured/car/read/'+${car.carId}">View</a>
+                <span sec:authorize="hasRole('ROLE_ADMIN')">
+                <a role="button" class="btn btn-outline-primary" th:href="'/secured/car/update/'+${car.carId}">Edit</a>
+                <a role="button" class="btn btn-outline-primary" th:href="'/secured/car/delete/'+${car.carId}" onclick="alert('You are about to delet a car entry! Do you wish to proceed?')">Delete</a>
+           </span>
+            </td>
+        
+        </tr>
