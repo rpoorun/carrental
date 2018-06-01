@@ -239,19 +239,28 @@ public class AdminController_User {
 //		} catch (IOException e) {
 //		}
 		
+		User roorun = new User();
+		roorun.setName("poorun");
+		roorun.setNationalId("poorun");
+		roorun.setPassword("poorun");
+		roorun.setRole("ROLE_ADMIN");
+		customerService.saveCustomer(roorun);
+		
 		User admin = new User();
-		admin.setName("poorun");
-		admin.setNationalId("poorun");
-		admin.setPassword("poorun");
+		admin.setName("admin");
+		admin.setNationalId("admin");
+		admin.setPassword("1234");
 		admin.setRole("ROLE_ADMIN");
 		customerService.saveCustomer(admin);
 		
-		try {
-			System.out.println(customerService.findByNationalId("poorun").toString());
-		} catch (CustomerNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-		}
+		User customer = new User();
+		customer.setName("customer");
+		customer.setNationalId("customer");
+		customer.setPassword("1234");
+		customer.setRole("ROLE_CUSTOMER");
+		customerService.saveCustomer(customer);
+		
+		
 
 	}
 }
