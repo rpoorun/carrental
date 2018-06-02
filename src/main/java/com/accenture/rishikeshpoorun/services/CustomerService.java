@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.accenture.rishikeshpoorun.configs.CustomAuthenticationProvider;
 import com.accenture.rishikeshpoorun.dao.entities.User;
 import com.accenture.rishikeshpoorun.dao.repositories.UserRepo;
 import com.accenture.rishikeshpoorun.exceptions.CustomerNotFoundException;
@@ -39,6 +40,9 @@ public class CustomerService {
 			u.setSex(customer.getSex());
 			u.setPassword(encoder.encode(customer.getPassword()));
 			u.setRole(customer.getRole());
+			u.setDob(customer.getDob());
+			u.setRentals(customer.getRentals());
+			
 			userRepo.save(u);
 			return true;
 		}
@@ -140,6 +144,15 @@ public class CustomerService {
 	public List<User> readCSVToCar(String fileName) throws FileNotFoundException, IOException {
 
 		return ReadFileUtil.readCSVToUser(fileName);
+	}
+
+	/**
+	 * Gets the current logged in user details
+	 * @return The User Entity
+	 */
+	public User authenticatedDetails() {
+		
+		return CustomAuthenticationProvider.getuTest();
 	}
 
 }

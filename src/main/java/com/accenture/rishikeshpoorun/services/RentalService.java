@@ -232,7 +232,7 @@ public class RentalService {
 
 		// Validation criteria if not satisfied throws exception
 		validateDates(startDate, endDate);
-		isUserStillOnLent(userId);
+		isUserStillOnRent(userId);
 		isCarAvailForRent(carId);
 		
 		Long days = ChronoUnit.DAYS.between(startDate, endDate);
@@ -250,8 +250,14 @@ public class RentalService {
 
 		return true;
 	}
-
-	private void isUserStillOnLent(Long userId) throws UserStillOnLentException {
+	
+	/**
+	 * Checks if the user has an open rental entry for a car not yet returned
+	 * @param userId
+	 * @return <b>False</b> if the user is not renting a car else returns, else <b>Throws</b>
+	 * @throws UserStillOnLentException
+	 */
+	public boolean isUserStillOnRent(Long userId) throws UserStillOnLentException {
 		// if user has no car rented, null is returned
 		if (rentalRepo.isUserOnLent(userId) != null) {
 
@@ -262,6 +268,9 @@ public class RentalService {
 					rentalRepo.isUserOnLent(userId).getEndDate());
 
 			throw new UserStillOnLentException(status);
+		}
+		else {
+			return false;
 		}
 	}
 

@@ -22,7 +22,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 	private UserRepo userRepo;
 	private PasswordEncoder passwordEncoder;
-	private static String id;
+	public static User uTest;
+	public static String id;
 
 	@Autowired
 	public CustomAuthenticationProvider(UserRepo userRepo, PasswordEncoder passwordEncoder) {
@@ -40,9 +41,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 		// TODO: Optional<User> op = userRepo.findByNationalId(username);
 
-		User uTest = userRepo.findByNationalId(nationalId);
+		uTest = userRepo.findByNationalId(nationalId);
 		
-		List authorities = getAuthorities(uTest);
+		List<GrantedAuthority> authorities = getAuthorities(uTest);
 		
 		// Get encoded password from database
 		String encodedPassword = uTest.getPassword();
@@ -59,7 +60,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 	
 	
-	  private List<GrantedAuthority> getAuthorities(User user) {
+	  public static User getuTest() {
+		return uTest;
+	}
+
+	private List<GrantedAuthority> getAuthorities(User user) {
 	        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 	        grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().toString()));
 	        

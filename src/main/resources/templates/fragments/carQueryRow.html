@@ -1,5 +1,5 @@
 <tr th:fragment="car-query-row">
-        <form method="post" th:action="@{/secured/car/find}" th:object="${car}">
+        <form  method="post" th:action="@{/secured/car/find}" th:object="${car}">
           <td><input type="text" class="form-control" th:field="*{registrationNumber}" id="registrationNumber" list="regNumbers" placeholder="Car Registration Number" /></td>
           		<datalist id="regNumbers">
           			<th:block th:each ="car: ${carlist}">
@@ -20,7 +20,7 @@
           			</th:block>
           		</datalist>
           		
-           <td class="text-right" sec:authorize="hasRole('ADMIN')">
+           <td class="text-right">
                <button type="submit" class="btn btn-primary col-sm-10">Search</button>
             </td>
         

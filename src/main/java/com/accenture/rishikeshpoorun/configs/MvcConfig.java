@@ -15,6 +15,8 @@ public class MvcConfig implements WebMvcConfigurer{
 		//Resolver list for direct domain http://localhost:8080/* 
 		
 		registry.addViewController("/").setViewName("/index");
+		
+		//redirects to the homepage after logging in
 		registry.addViewController("/signedIndex").setViewName("/index");
 		
 	}

@@ -24,12 +24,12 @@
      	<span class="badge badge-primary" th:text="${status}"></span></h4>
      	
     <!-- Car table -->
-    <table class="table">
+    <table th:fragment="available-car-table" class="table">
        <thead th:replace="fragments/carTableHeader :: car-table-header"></thead>
         
         <tbody>
         <!-- Car Search Row -->
-         <tr th:replace = "fragments/carQueryRow :: car-query-row"></tr>
+         <tr sec:authorize="hasRole('ADMIN')" th:replace = "fragments/carQueryRow :: car-query-row"></tr>
         
         <!-- Car list per row -->
         <tr th:each="car : ${carlist}">
@@ -41,7 +41,7 @@
             <a role="button" class="btn btn-outline-primary" th:href="'/customer/car/read/'+${car.carId}">View</a>
             
             <span sec:authorize="hasRole('ROLE_CUSTOMER')">
-             <a role="button" class="btn btn-outline-success" th:href="'/customer/car/rentRequest/'+${car.carId}"  onclick="alert('You are about to rent a car! Do you wish to proceed?')">Rent Now</a>
+             <a role="button" class="btn btn-outline-success" th:href="'/customer/car/rentRequest/'+${car.carId}+'&'"  onclick="alert('You are about to rent a car! Do you wish to proceed?')">Rent Now</a>
                 </span>
                 <span sec:authorize="hasRole('ROLE_ADMIN')">
                 <a role="button" class="btn btn-outline-success" th:href="'/secured/rental/allocate/'+${car.carId}">Allocate</a>

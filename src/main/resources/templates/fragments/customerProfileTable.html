@@ -1,0 +1,41 @@
+<table th:fragment="customer-profile-table" class="table">
+    	<tbody>
+    		<tr>
+    			<td>National ID:</td>
+    			<td th:text="${user.nationalId}" style="font-weight: bold;">National ID</td>
+    			<td>Date of Birth:</td>
+    			<td th:text="${user.dob}" style="font-weight: bold;">Date of birth</td>
+    		</tr>
+    		<tr>
+    			<td>Name: </td>
+    			<td th:text="${user.name}" style="font-weight: bold;">Name</td>
+    			<td>Gender: </td>
+    			<td th:text= "${user.sex}" style="font-weight: bold;"> Gender</td>
+    		</tr>
+    		<tr>
+    			<td>Number of Cars rented: </td>
+		      	<td th:text="${#lists.size(rentalList)}" style="font-weight: bold;"></td>
+    			<td>Status: </td>
+    			<td>
+    			<span th:if="${stillOnRent}=='null'">True</span>
+    			<span th:unless="${stillOnRent}=='false'">False</span>
+    			 </td>
+    			
+    		</tr>
+    		<tr>
+    			<td>Total Amounts: </td>
+    			<td><b>Rs <span  th:text="${#aggregates.sum(rentalList.![charges])}"></span></b></td>
+    			
+    			<span sec:authorize="hasRole('ROLE_ADMIN')" >
+    				<td>Role:</td>
+    				<td th:text="${user.role}" style="font-weight: bold;">Role</td>
+    			</span>
+    			<span sec:authorize="hasRole('ROLE_CUSTOMER')">
+    				<td></td>
+    				<td></td>
+    			</span>
+    		</tr>
+    		
+    	</tbody>
+    </table>
+    

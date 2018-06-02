@@ -12,34 +12,49 @@
     <h1> Customer Dashboard</h1>
     <h3 class="text-primary">Car Rental ltd</h3>
     
+    <!-- User Profile Section -->
     <h4 style="color:blue;"> Customer Profile</h4>
-    <table class="table" sec:authorize="hasRole('ROLE_CUSTOMER')">
-    	<tbody>
-    		<tr>
-    			<td>National ID:</td>
-    			<td th:text="${user.nationalId}" style="font-weight: bold;">National ID</td>
-    			<td>Date of Birth:</td>
-    			<td th:text="${user.dob}" style="font-weight: bold;">Date of birth</td>
-    		</tr>
-    		<tr>
-    			<td>Name: </td>
-    			<td th:text="${user.name}" style="font-weight: bold;">Name</td>
-    			<td>Gender: </td>
-    			<td th:text= "${user.sex}" style="font-weight: bold;"> Gender</td>
-    		</tr>
-    		<tr>
-    			<td></td>
-    			<td></td>
-    			<td>Role:</td>
-    			<td th:text="${user.role}" style="font-weight: bold;">Role</td>
-    		</tr>
-    		
-    	</tbody>
-    </table>
+    
+   <table th:replace="fragments/customerProfileTable :: customer-profile-table"></table>
     
     
-    
-    <!-- Footer -->
+    <!-- Status -->
+	<h4 class="text-primary">
+     	<span class="badge badge-primary" th:text="${status}"></span></h4> 
+     	
+     	
+    <!-- User Rental Action section  -->
+		<ul class="nav nav-tabs">
+			<li class="nav-item"><a class="nav-link active show"
+				data-toggle="tab" href="#rentalHistory"><h5>Rental History</h5></a></li>
+			<li class="nav-item"><a class="nav-link" data-toggle="tab"
+				href="#availCar"><h5>Available Cars For Rent</h5></a></li>
+		</ul>
+		<div id="myTabContent" class="tab-content">
+			<div class="tab-pane fade active show" id="rentalHistory">
+				
+				<!-- Rental History Table -->
+				<table class="table">
+					<thead
+						th:replace="fragments/rentalTableHeader :: rental-table-header"></thead>
+
+					<tbody>
+						<!-- Rental Query Row -->
+						<tr sec:authorize="hasRole('ADMIN')" th:replace="fragments/rentalQueryRow :: rental-query-row"></tr>
+						
+						<!-- Rental list per row -->
+						<tr th:replace="fragments/populateRentalTable :: populate-rental-table"></tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="tab-pane fade" id="availCar">
+				<!-- Available Car list -->
+				<table th:replace="customer_page/listAvailCar :: available-car-table"></table>
+			</div>
+		</div>
+
+
+		<!-- Footer -->
     <footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>

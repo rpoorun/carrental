@@ -258,6 +258,7 @@ public class AdminController_User {
 		customer.setNationalId("customer");
 		customer.setPassword("1234");
 		customer.setRole("ROLE_CUSTOMER");
+		
 		customerService.saveCustomer(customer);
 		
 		

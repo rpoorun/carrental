@@ -4,7 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * Handles all request from domain:port/login
+ * Handles all request from HostDomain:port/login
+ * @author rishikesh.poorun
  *
  */
 @Controller
