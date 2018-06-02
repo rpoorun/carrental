@@ -60,16 +60,8 @@ public class CustomerService {
 			return true;
 		}
 		else if(fetch !=null) {
-			User u = new User();
-			u.setName(dto.getName());
-			u.setNationalId(dto.getNationalId());
-			u.setSex(dto.getSex());
-			u.setPassword(encoder.encode(dto.getPassword()));
-			u.setRole(dto.getRole());
-			u.setDob(dto.getDob());
-			u.setRentals(dto.getRentals());
-			u.setUserDeleted(false);
-			userRepo.save(u);
+			dto.setPassword(encoder.encode(dto.getPassword()));
+			userRepo.save(dto);
 			logger.info("User updated!");
 			return true;
 			
