@@ -19,6 +19,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name="USER_TABLE")
 public class User {
 	
+	
 	@Id
 	@Column(name="USER_ID")
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -45,6 +46,24 @@ public class User {
 	
 	@OneToMany (targetEntity=Rental.class, mappedBy="user", fetch=FetchType.EAGER)
 	private List<Rental> rentals;
+	
+	@Column(name="USER_DELETED")
+	private boolean userDeleted = false;
+	
+	// Default Constructor 
+	public User() {
+	}
+	
+	
+	// Parametrized Constructor 
+	public User(String nationalId, String password, String name, String role, String sex, LocalDate dob) {
+		this.nationalId = nationalId;
+		this.password = password;	
+		this.name = name;
+		this.role = role;
+		this.sex = sex;
+		this.dob = dob;
+	}
 
 	public List<Rental> getRentals() {
 		return rentals;
@@ -113,12 +132,34 @@ public class User {
 	public void setRentals(List<Rental> rentals) {
 		this.rentals = rentals;
 	}
+	
+	
+	
+
+	public boolean isUserDeleted() {
+		return userDeleted;
+	}
+
+
+	public void setUserDeleted(boolean userDeleted) {
+		if(userDeleted) {
+			this.userDeleted = true;
+		}
+		else {
+			this.userDeleted= false;
+		}
+	}
+
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", nationalId=" + nationalId + ", password=" + password + ", name=" + name
-				+ ", role=" + role + ", sex=" + sex + ", dob=" + dob + ", rentals=" + rentals + "]";
+				+ ", role=" + role + ", sex=" + sex + ", dob=" + dob + ", rentals=" + rentals + ", userDeleted="
+				+ userDeleted + "]";
 	}
+
+
+	
 	
 	
 	

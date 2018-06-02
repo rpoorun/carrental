@@ -2,6 +2,7 @@ package com.accenture.rishikeshpoorun.dto;
 
 import java.time.LocalDate;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
@@ -39,13 +40,7 @@ public class RentalDto {
 	private LocalDate endDate;
 	private boolean returned;
 	private Double charges;
-	public Double getCharges() {
-		return charges;
-	}
-
-	public void setCharges(Double charges) {
-		this.charges = charges;
-	}
+	private String role;
 
 	private String sex;
 	
@@ -80,12 +75,35 @@ public class RentalDto {
 			this.name = customerService.findById(user.getUserId()).getName();
 			this.sex = customerService.findById(user.getUserId()).getSex();
 			this.dob = customerService.findById(user.getUserId()).getDob();
+			this.role = customerService.findById(user.getUserId()).getRole();
 		} catch (Exception e) {
 
 		}
 
 	}
 	
+	/**
+	 * Creates a Dummy DTO populated with User Details
+	 * @param authenticatedDetails
+	 */
+	public RentalDto(User authenticatedDetails) {
+		this.userId = user.getUserId();
+		this.name = user.getName();
+		this.nationalId = user.getNationalId();
+		this.dob = user.getDob();
+		this.role = user.getRole();
+		this.sex = user.getSex();
+		
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 	public Long getCarId() {
 		return carId;
 	}
@@ -170,6 +188,15 @@ public class RentalDto {
 		return returned;
 	}
 
+	public void setReturned(String returned) {
+		if(returned.equalsIgnoreCase("True")) {
+			this.returned = true;
+		}
+		else if(returned.equalsIgnoreCase("False")) {
+			this.returned = false;
+		}
+	}
+	
 	public void setReturned(boolean returned) {
 		this.returned = returned;
 	}
@@ -213,5 +240,11 @@ public class RentalDto {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public Double getCharges() {
+		return charges;
+	}
 
+	public void setCharges(Double charges) {
+		this.charges = charges;
+	}
 }

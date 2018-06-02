@@ -1,15 +1,6 @@
 package com.accenture.rishikeshpoorun.controllers;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,37 +9,33 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.accenture.rishikeshpoorun.dao.entities.Rental;
 import com.accenture.rishikeshpoorun.dao.entities.User;
 import com.accenture.rishikeshpoorun.dto.RentalDto;
 import com.accenture.rishikeshpoorun.exceptions.CustomerNotFoundException;
-import com.accenture.rishikeshpoorun.services.CustomerService;
-import com.accenture.rishikeshpoorun.services.RentalService;
 
 @Controller
 @RequestMapping("/secured/user")
 @Secured(value= {"ROLE_ADMIN"})
-public class AdminController_User {
+public class AdminController_User extends FrontController{
 	
-	@Autowired 
-	private CustomerService customerService;
-	
-	@Autowired
-	private RentalService rentalService;
-	
+	/**
+	 * Redirects the request to the list of all User page	
+	 * @param model
+	 * @param nationalId
+	 * @return
+	 */
 	@GetMapping("/all")
-	public String showAllUsers(Model model, String nationalId) {
-		
-		List<User> list = customerService.getAllCustomer();
-		model.addAttribute("userlist", list);
+	public String showAllUsers(Model model) {
+		model.addAttribute("userlist", customerService.getAllCustomer());
 		model.addAttribute("user", new User());
-		nationalId = (nationalId == null)? "none":nationalId;
-		model.addAttribute("new", nationalId);
 		return "secured_page/userList";
 	}
 	
-	
+	/**
+	 * Redirects to the Secured User Form page
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/add")
 	public String goToAddUserPage(Model model) {
 
@@ -56,6 +43,12 @@ public class AdminController_User {
 		return "secured_page/userForm";
 	}
 	
+	/**
+	 * Handles the post request from the User Form
+	 * @param u
+	 * @param model
+	 * @return
+	 */
 	@PostMapping(value = "/add")
 	public String goToNewShowAllUser(@ModelAttribute User u, Model model) {
 		
@@ -63,9 +56,9 @@ public class AdminController_User {
 			boolean status = customerService.saveCustomer(u);
 			if (status) {
 				
-				return showAllUsers(model, u.getNationalId());
+				return showAllUsers(model);
 			} else {
-
+				
 				model.addAttribute("status", "Failed to add User " + u.getNationalId());
 				return "secured_page/userForm";
 			}
@@ -79,6 +72,13 @@ public class AdminController_User {
 
 	}
 	
+	/**
+	 * Handles the request for updating a current user
+	 * Catches the userId from the URL path
+	 * @param userId
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value="/update/{userId}")
 	public String goToUpdateUserProfile(@PathVariable("userId") Long userId, Model model) {
 		try {
@@ -93,20 +93,21 @@ public class AdminController_User {
 	}
 	
 	
+	/**
+	 * Redirects to the Secured User Profile page
+	 * Catches the user Id from the URL to return the User entity as model attribute
+	 * @param userId
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value="/read/{userId}")
 	public String readUser(@PathVariable("userId") Long userId, Model model) {
 		
 		try {
 			User u = customerService.findById(userId);
-			List<Rental> rentalList = rentalService.allRentalByUserId(userId);
-			List<RentalDto> rentalDtoList = new ArrayList<>();
-			for(Rental r: rentalList) {
-				rentalDtoList.add(new RentalDto(r));
-			}
-			model.addAttribute("rentalDtoList", rentalDtoList);
 			model.addAttribute("user", u);
-			model.addAttribute("rentalList", rentalList);
-			model.addAttribute("rentDto", new RentalDto());
+			model.addAttribute("rentalList", rentalService.allRentalByUserId(userId));
+			model.addAttribute("rentalDto", new RentalDto()); // to catch rental query row
 			
 		} catch (CustomerNotFoundException e) {
 			model.addAttribute("status", e.getLocalizedMessage());
@@ -115,6 +116,14 @@ public class AdminController_User {
 		return "secured_page/userProfile";
 	}
 	
+	/**
+	 * Handles the delete request of a user 
+	 * The user entry is set as deleted 
+	 * Catches the userId from the URL path
+	 * @param userId
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value="/delete/{userId}")
 	public String deleteUser(@PathVariable("userId") Long userId, Model model) {
 		
@@ -129,139 +138,45 @@ public class AdminController_User {
 			
 		}
 		
-		return showAllUsers(model, "none");
+		return showAllUsers(model);
 	}
 	
-	
+	/**
+	 * Redirects for the Secured User query page/row
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value="/query")
 	public String goToUserQuery(Model model) {
-		List<User> list = customerService.getAllCustomer();
-		model.addAttribute("userlist", list);
+		model.addAttribute("userlist", customerService.getAllCustomer());
 		model.addAttribute("user", new User());
 		return "secured_page/userQuery";
 	}
 	
 	
+	/**
+	 * Handles the post requests from the User query row
+	 * 
+	 * @param u
+	 * @param model
+	 * @return
+	 */
 	@PostMapping(value="/find")
 	public String findUser(@ModelAttribute User u, Model model) {
 		
-		List<User> fetch = customerService.getAllCustomer();
-		List<User> list = new ArrayList<>();
 		try {
-			
-			if(!u.getNationalId().equalsIgnoreCase("")) {
-				list.add(customerService.findByNationalId(u.getNationalId()));
-			}
-			
-			if(!u.getName().equalsIgnoreCase("")) {
-				list = filterName(u.getName(), fetch);
-				fetch = list;
-			}
-			
-			if(!u.getSex().equalsIgnoreCase("")) {
-				list = filterGender(u.getSex(), fetch);
-				fetch = list;				
-			}
-			
-//			if(u.getDob() == null) {
-//				list = filterDob(u.getDob(), fetch);
-//				fetch = list;
-//			}
-			
-			if(!u.getRole().equalsIgnoreCase("")) {
-				list = filterRole(u.getRole(), fetch);
-			}
+			List<User> list = customerService.processUserQuery(u, model);
+			model.addAttribute("userlist", list);
+			return "secured_page/userList";
 		}
-		catch (CustomerNotFoundException e){
+		catch (Exception e){
 			model.addAttribute("status", e.getMessage());
 			return "secured_page/userQuery";
 		}
 		
-		model.addAttribute("userlist", list);
-		return "secured_page/userList";
+		
 	}
 	
 	
-	private List<User> filterRole(String role, List<User> fetch) {
-		List<User> list = new ArrayList<>();
-		for(User user: fetch) {
-			if(user.getRole().equalsIgnoreCase(role)) {
-				list.add(user);
-			}
-		}		
-		
-		return list;
-	}
-
-
-	private List<User> filterName(String filter, List<User> fetch){
-		List<User> list = new ArrayList<>();
-		for(User user: fetch) {
-			if(user.getName().equalsIgnoreCase(filter)) {
-				list.add(user);
-			}
-		}		
-		
-		return list;
-	}
 	
-	private List<User> filterGender(String filter, List<User> fetch){
-		List<User> list = new ArrayList<>();
-		for(User user: fetch) {
-			if(user.getSex().equalsIgnoreCase(filter)) {
-				list.add(user);
-			}
-		}		
-		
-		return list;
-	}
-	
-	private List<User> filterDob(LocalDate date, List<User> fetch){
-		List<User> list = new ArrayList<>();
-		for(User user: fetch) {
-			if(user.getDob().isEqual(date)) {
-				list.add(user);
-			}
-		}		
-		
-		return list;
-	}
-
-	
-	@Profile(value = "dev")
-	@PostConstruct
-	private void populateUserDatabase() {
-//		String fileName = "/Users/rishikesh.poorun/OneDrive - Accenture/Spring Boot Project/carrental/src/main/resources/files/usersDev.csv";
-//		try {
-//			List<User> list = customerService.readCSVToCar(fileName);
-//			customerService.saveListToDatabase(list);
-//		} catch (FileNotFoundException e) {
-//		} catch (IOException e) {
-//		}
-		
-		User roorun = new User();
-		roorun.setName("poorun");
-		roorun.setNationalId("poorun");
-		roorun.setPassword("poorun");
-		roorun.setRole("ROLE_ADMIN");
-		customerService.saveCustomer(roorun);
-		
-		User admin = new User();
-		admin.setName("admin");
-		admin.setNationalId("admin");
-		admin.setPassword("1234");
-		admin.setRole("ROLE_ADMIN");
-		customerService.saveCustomer(admin);
-		
-		User customer = new User();
-		customer.setName("customer");
-		customer.setNationalId("customer");
-		customer.setPassword("1234");
-		customer.setRole("ROLE_CUSTOMER");
-		
-		customerService.saveCustomer(customer);
-		
-		
-
-	}
 }

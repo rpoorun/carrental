@@ -3,3 +3,31 @@
 2018-06-02 08:59:04 ERROR CustomerController:102 - Failed to rent a car. Message: Start Date [2018-06-02] and End Date [2018-06-02] cannot be on the same day!
 2018-06-02 08:59:04 INFO  CustomerController:105 - User: customerconfirmed request to rent Car: 123-Mar-09 as from 2018-06-02 to 2018-06-02
 2018-06-02 09:01:21 INFO  CustomerController:107 - User: customerconfirmed request to rent Car: 123-Mar-09 as from 2018-06-08 to 2018-06-30
+2018-06-02 10:26:12 INFO  CustomerController:104 - User: customerconfirmed request to rent Car: 123-Mar-09 as from 2018-06-09 to 2018-06-30
+2018-06-02 10:26:20 ERROR CustomerController:75 - Could not load the Rental Request Form. Message: This User [Name: customer NIC: customer] is already renting a car [123-Mar-09] till: 2018-06-30
+2018-06-02 10:29:51 INFO  CustomerController:95 - User: customerconfirmed request to rent Car: 123-Mar-09 as from 2018-06-09 to 2018-06-30
+2018-06-02 10:29:58 ERROR CustomerController:66 - Could not load the Rental Request Form. Message: This User [Name: customer NIC: customer] is already renting a car [123-Mar-09] till: 2018-06-30
+2018-06-02 10:31:21 ERROR CustomerController:90 - Failed to rent a car. Message: Start Date [2018-06-09] and End Date [2018-06-09] cannot be on the same day!
+2018-06-02 10:31:27 INFO  CustomerController:95 - User: customerconfirmed request to rent Car: 123-Dec-10 as from 2018-06-09 to 2018-06-30
+2018-06-02 10:31:32 ERROR CustomerController:66 - Could not load the Rental Request Form. Message: User [Name: customer NIC: customer] is already renting a car [123-Dec-10] till: 2018-06-30. Cannot make second rent request!
+2018-06-02 18:54:47 INFO  CustomerController:95 - User: vanuconfirmed request to rent Car: 321-Mar-09 as from 2018-06-02 to 2018-06-30
+2018-06-02 18:55:01 ERROR CustomerController:66 - Could not load the Rental Request Form. Message: User [Name: vanu NIC: vanu] is already renting a car [321-Mar-09] till: 2018-06-30. Cannot make second rent request!
+2018-06-02 22:36:44 ERROR CustomerService:155 - This user is removed and cannot be further processed!
+2018-06-02 23:19:08 INFO  CustomerService:59 - Created new User!
+2018-06-02 23:19:08 INFO  CustomerService:59 - Created new User!
+2018-06-02 23:19:08 INFO  CustomerService:59 - Created new User!
+2018-06-02 23:19:08 INFO  CustomerService:59 - Created new User!
+2018-06-02 23:19:08 INFO  CustomerService:59 - Created new User!
+2018-06-02 23:23:21 ERROR CustomerService:194 - Cannot find customer by national id!
+2018-06-02 23:23:34 ERROR CustomerService:194 - Cannot find customer by national id!
+2018-06-02 23:25:00 ERROR CustomerService:194 - Cannot find customer by national id!
+2018-06-02 23:30:34 INFO  CustomerService:59 - Created new User!
+2018-06-02 23:30:34 INFO  CustomerService:59 - Created new User!
+2018-06-02 23:30:34 INFO  CustomerService:59 - Created new User!
+2018-06-02 23:30:34 INFO  CustomerService:59 - Created new User!
+2018-06-02 23:30:34 INFO  CustomerService:59 - Created new User!
+2018-06-02 23:33:38 INFO  CustomerService:59 - Created new User!
+2018-06-02 23:33:38 INFO  CustomerService:59 - Created new User!
+2018-06-02 23:33:38 INFO  CustomerService:59 - Created new User!
+2018-06-02 23:33:39 INFO  CustomerService:59 - Created new User!
+2018-06-02 23:33:39 INFO  CustomerService:59 - Created new User!

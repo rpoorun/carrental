@@ -2,7 +2,6 @@ package com.accenture.rishikeshpoorun.configs;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,8 +21,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 	private UserRepo userRepo;
 	private PasswordEncoder passwordEncoder;
-	public static User uTest;
-	public static String id;
+	private static User uTest;
+	private static String id;
 
 	@Autowired
 	public CustomAuthenticationProvider(UserRepo userRepo, PasswordEncoder passwordEncoder) {
@@ -43,7 +42,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 		uTest = userRepo.findByNationalId(nationalId);
 		
-		List<GrantedAuthority> authorities = getAuthorities(uTest);
+		List <GrantedAuthority> authorities = getAuthorities(uTest);
 		
 		// Get encoded password from database
 		String encodedPassword = uTest.getPassword();
@@ -61,12 +60,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	
 	
 	  public static User getuTest() {
+		  System.out.println(uTest.toString());
 		return uTest;
 	}
 
 	private List<GrantedAuthority> getAuthorities(User user) {
 	        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-	        grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().toString()));
+	        grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole()));
 	        
 	        return grantedAuthorities;
 	    }

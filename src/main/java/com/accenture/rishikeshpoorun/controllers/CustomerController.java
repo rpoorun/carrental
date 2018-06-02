@@ -1,5 +1,6 @@
 package com.accenture.rishikeshpoorun.controllers;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -42,37 +43,26 @@ public class CustomerController extends FrontController {
 	 */
 	@GetMapping(value = "car/rentRequest/{carId}&{userId}")
 	public String goToCreateRentalEntry(@PathVariable("carId") Long carId, @PathVariable("userId") Long userId,
-			Model model) {
+		 Principal principal, Model model) {
 
 		try {
 			RentalDto dto = new RentalDto();
-
 			dto.setCarId(carId);
 			dto.setUserId(userId);
 			dto.setNationalId(customerService.findById(userId).getNationalId());
 			dto.setRegistrationNumber(carService.findById(carId).getRegistrationNumber());
-
 			// check if user is not currently renting a car
 			rentalService.isUserStillOnRent(userId);
 
 			model.addAttribute("rentalDto", dto);
 
-			// String nationalId = rentalDto.getNationalId();
-			// String registrationNumber = rentalDto.getRegistrationNumber();
-			// rentalDto.setCarId(carService.findByRegistrationNumber(registrationNumber).getCarId());
-			// rentalDto.setUserId(customerService.findByNationalId(nationalId).getUserId());
-			// LocalDate startDate = rentalDto.getStartDate();
-			// LocalDate endDate = rentalDto.getEndDate();
-			//
-			// rentalService.createRentalEntry(rentalDto.getUserId(), rentalDto.getCarId(),
-			// startDate, endDate);
 			return "customer_page/rentalForm";
 		}
 
 		catch (Exception e) {
 			model.addAttribute("status", e.getMessage());
 			logger.error("Could not load the Rental Request Form. Message: " + e.getMessage());
-			return "customerDashboard";
+			return goToCustomerDashBoard(principal, model);
 		}
 
 	}
@@ -86,7 +76,7 @@ public class CustomerController extends FrontController {
 	 * @return Go to the Customer DashBoard page </br> Else, Redirects for the Rental Form with status
 	 */
 	@PostMapping(value = "/rental/allocate")
-	public String processRentRequest(@ModelAttribute RentalDto dto, Model model) {
+	public String processRentRequest(@ModelAttribute RentalDto dto, Principal principal, Model model) {
 		
 		try {
 			dto.setCarId(carService.findByRegistrationNumber(dto.getRegistrationNumber()).getCarId());
@@ -103,6 +93,7 @@ public class CustomerController extends FrontController {
 		logger.info("User: " + dto.getNationalId() + "confirmed request to rent Car: " + dto.getRegistrationNumber()
 		+ " as from " + dto.getStartDate().toString() + " to " + dto.getEndDate().toString());
 
-		return goToCustomerDashBoard(model);
+		
+		return goToCustomerDashBoard(principal, model);
 	}
 }

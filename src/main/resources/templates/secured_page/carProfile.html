@@ -30,7 +30,13 @@
     			<td>Model: </td>
     			<td th:text="${car.model}" style="font-weight: bold;">Model</td>
     			<td>Rental Price: </td>
-    			<td th:text= "${car.pricePerDay}" style="font-weight: bold;"> Price</td>
+    			<td><b>Rs <span th:text= "${car.pricePerDay}" style="font-weight: bold;"> Price</span></b></td>
+    		</tr>
+    		<tr>
+    			<td></td>
+    			<td></td>
+    			<td>Total Revenue Generated: </td>
+    			<td><b>Rs <span  th:text="${#aggregates.sum(rentalList.![charges])}"></span></b></td>
     		</tr>
     		
     	</tbody>

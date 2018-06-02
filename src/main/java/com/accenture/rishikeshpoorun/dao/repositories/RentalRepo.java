@@ -13,7 +13,10 @@ import com.accenture.rishikeshpoorun.dao.entities.User;
 
 public interface RentalRepo extends JpaRepository<Rental, Long> {
 
-	@Query("SELECT c FROM Car c WHERE c.carId NOT IN (SELECT car FROM Rental r WHERE r.returned = false)")
+	/**
+	 * @return List of Car entities for are not deleted and not currently on rent
+	 */
+	@Query("SELECT c FROM Car c WHERE c.carDeleted = false AND c.carId NOT IN (SELECT car FROM Rental r WHERE r.returned = false)")
 	public List<Car> allCarsAvailForRent();
 	
 	@Query("SELECT u FROM User u WHERE u.userId IN (SELECT user FROM Rental r WHERE r.startDate =:startDate AND r.endDate=:endDate)")

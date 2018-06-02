@@ -26,17 +26,32 @@ public class Car {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long carId;
 	
-	@Column(name="REGISTRATION_NUMBER", unique=true)
+	@Column(name="REGISTRATION_NUMBER", unique=true, nullable=false)
 	private String registrationNumber;
 	
 	@Column(name="CAR_MODEL")
 	private String model;
 	
-	@Column(name="PRICE_PER_DAY")
+	@Column(name="PRICE_PER_DAY", columnDefinition="Decimal(10,2)")
 	private Double pricePerDay;
 	
 	@OneToMany(targetEntity=Rental.class , mappedBy="car", fetch=FetchType.EAGER)
 	private List<Rental> rentals;
+	
+	@Column(name="CAR_DELETED")
+	private boolean carDeleted;
+
+	// Default Constructor
+	public Car() {
+	}
+
+	// Parametrized Constructor
+	public Car(String registrationNumber, String model, Double pricePerDay) {
+		this.registrationNumber = registrationNumber;
+		this.model = model;
+		this.pricePerDay = pricePerDay;
+		
+	}
 
 	@JsonIgnore
 	public List<Rental> getRentals() {
@@ -78,6 +93,25 @@ public class Car {
 	public void setPricePerDay(Double pricePerDay) {
 		this.pricePerDay = pricePerDay;
 	}
+	public boolean isCarDeleted() {
+		return carDeleted;
+	}
 
+	public void setCarDeleted(boolean carDeleted) {
+		// any other values reset the attribute to false
+		if(carDeleted) {
+			this.carDeleted = true;
+		}
+		else {
+			this.carDeleted = false;
+		}
+		
+	}
+
+	@Override
+	public String toString() {
+		return "Car [carId=" + carId + ", registrationNumber=" + registrationNumber + ", model=" + model
+				+ ", pricePerDay=" + pricePerDay + ", rentals=" + rentals + ", carDeleted=" + carDeleted + "]";
+	}
 	
 }

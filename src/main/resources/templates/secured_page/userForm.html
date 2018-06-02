@@ -30,7 +30,7 @@
 
 <!-- Main content -->
 <div class="container mt-4">
-    <form method="post" th:action="@{/secured/user/add}" th:object="${user}">
+    <form method="post" th:action="@{/secured/user/add}" th:object="${user}" style="margin-left:20%; margin-right:20%">
         <h3 class="text-primary">User <span class="text-primary" th:text="${mode}">Form</span></h3>
         <div class="form-group">
             <label for="nationalId">National ID: </label>
@@ -64,8 +64,8 @@
          <div class="form-group">
             <label for="role">Role: </label>
             <select class="form-control" th:field="*{role}"  id="role" required>
-            	<option value = "CUSTOMER" selected="selected">Customer</option>
-            	<option value= "ADMIN">Admin</option>
+            	<option value = "ROLE_CUSTOMER" selected="selected">Customer</option>
+            	<option value= "ROLE_ADMIN">Admin</option>
             
             </select>
         </div>
@@ -80,5 +80,7 @@
         </div>
     </form>
 </div>
+
+<footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>

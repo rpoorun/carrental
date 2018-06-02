@@ -10,7 +10,7 @@
 
 <!-- Main content -->
 <div class="container mt-4">
-    <form method="post" th:action="@{/secured/car/add}" th:object="${car}">
+    <form method="post" th:action="@{/secured/car/add}" th:object="${car}" style="margin-left:20%; margin-right:20%">
         <h3 class="text-primary">Car <span class="text-primary" th:text="${mode}">Form</span></h3>
         <div class="form-group">
             <label for="registrationNumber">Registration Number: </label>

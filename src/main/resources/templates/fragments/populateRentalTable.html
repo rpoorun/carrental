@@ -2,17 +2,26 @@
        
             <th scope="row" th:text="${rent.rentalId}">Rental ID</th>
              <td th:text="${rent.car.registrationNumber}">Car Registration</td>
-            <td th:text="${rent.user.nationalId}">National ID</td>
+            <td th:text="${rent.user.NationalId}">National ID</td>
             <td th:text="${rent.startDate}">Start Date</td>
             <td th:text="${rent.endDate}">End Date</td>
             <td th:text="${rent.charges}">Charge Amount</td>
             <td th:text="${rent.returned}">Returned</td>
             
-            <td class="text-right" sec:authorize="hasRole('ADMIN')">
-                <a role="button" class="btn btn-outline-primary" th:href="'/secured/rental/read/'+${rent.rentalId}">View</a>
-               <span th:style="${rent.returned}?  'display:none' : 'display:inline' ">
-                <a role="button" id="releasebtn" class="btn btn-outline-success" th:href="'/secured/rental/releasing/'+${rent.rentalId}">
+            <td class="text-right" sec:authorize="hasRole('ADMIN')" >
+            <span th:style="${rent.car.carDeleted}? 'display:inline':'display:none'">
+            		<a role="button" class="btn btn-outline-secondary disabled"  href="#">N/A Car Deleted</a>
+            </span>
+            <span th:style="${rent.user.userDeleted}? 'display:inline':'display:none'">
+            		<a role="button" class="btn btn-outline-secondary disabled"  href="#">N/A User Deleted</a>
+            </span>
+            <span th:style="${rent.car.carDeleted}? 'display:none' : 'display:inline'">
+                            <a role="button" class="btn btn-outline-primary" th:href="'/secured/rental/read/'+${rent.rentalId}">View</a>
+               			<span th:style="${rent.returned}?  'display:none' : 'display:inline' ">
+               		 <a role="button" id="releasebtn" class="btn btn-outline-success" th:href="'/secured/rental/releasing/'+${rent.rentalId}">
                 Release</a>
+                </span>
+                
                 </span>
             </td>
             

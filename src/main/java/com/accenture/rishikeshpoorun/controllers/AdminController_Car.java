@@ -1,14 +1,7 @@
 package com.accenture.rishikeshpoorun.controllers;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,59 +12,48 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
 import com.accenture.rishikeshpoorun.dao.entities.Car;
-import com.accenture.rishikeshpoorun.dao.entities.Rental;
 import com.accenture.rishikeshpoorun.dto.RentalDto;
 import com.accenture.rishikeshpoorun.dto.TextDto;
 import com.accenture.rishikeshpoorun.exceptions.CarNotFoundException;
-import com.accenture.rishikeshpoorun.services.CarService;
-import com.accenture.rishikeshpoorun.services.RentalService;
 import com.accenture.rishikeshpoorun.util.ReadFileUtil;
 
 @Controller
 @RequestMapping(value = "/secured/car")
 @Secured(value= {"ROLE_ADMIN"})
-public class AdminController_Car {
+public class AdminController_Car extends FrontController{
+		
 
-	@Autowired
-	private CarService carService;
-
-	@Autowired
-	private RentalService rentalService;
-	
+	/**
+	 * Redirects to the Secured List of Car Page
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/all")
 	public String showAllCar(Model model) {
-		List<Car> list = new ArrayList<>();
-		list = carService.getAllCars();
+		List<Car> list = carService.getAllCars();
 		model.addAttribute("carlist", list);
 		model.addAttribute("car", new Car());
 		
 		return "secured_page/carList";
 	}
 
-	@GetMapping(value = "/add")
-	public String goToAddCarPage(Model model) {
+	
 
-		model.addAttribute("car", new Car());
-		return "secured_page/carForm";
-	}
-
+	/**
+	 * Redirects to the Secured Car profile page, catches the carId from the request
+	 * @param carId
+	 * @param model
+	 * @return Go to Secured_Car profile
+	 */
 	@GetMapping(value="/read/{carId}")
 	public String readCar(@PathVariable("carId") Long carId, Model model) {
 		
 		try {
 			Car c = carService.findById(carId);
-			List<Rental> rentalList = rentalService.allRentalByCarId(carId);
-			List<RentalDto> rentalDtoList = new ArrayList<>();
-			for(Rental r: rentalList) {
-				rentalDtoList.add(new RentalDto(r));
-			}
-			model.addAttribute("rentalDtoList", rentalDtoList);
 			model.addAttribute("car", c);
-			model.addAttribute("rentalList", rentalList);
-			model.addAttribute("rentDto", new RentalDto());
+			model.addAttribute("rentalList", rentalService.allRentalByCarId(carId));
+			model.addAttribute("rentalDto", new RentalDto());
 			
 		} catch ( CarNotFoundException e) {
 			model.addAttribute("status", e.getLocalizedMessage());
@@ -80,7 +62,13 @@ public class AdminController_Car {
 		return "secured_page/carProfile";
 	}
 	
-	
+	/**
+	 * Redirects to the Secured Car Update Form 
+	 * @param carId
+	 * @param model
+	 * @return Go to Secured_CarForm
+	 * Passing model attribute car to prefill the Update Form
+	 */
 	@GetMapping(value="/update/{carId}")
 	public String goToUpdateCarProfile(@PathVariable("carId") Long carId, Model model) {
 		try {
@@ -96,7 +84,12 @@ public class AdminController_Car {
 	}
 	
 	
-	
+	/**
+	 * Handles the delete request for a car entities
+	 * @param carId
+	 * @param model
+	 * @return
+	 */
 	
 	@GetMapping(value = "/delete/{carId}")
 	public String deleteCar(@PathVariable("carId") Long carId, Model model) {
@@ -114,7 +107,25 @@ public class AdminController_Car {
 
 		return showAllCar(model);
 	}
+	
+	/**
+	 * Redirects requests to the Secured created a car entity form
+	 * @param model
+	 * @return
+	 */
+	@GetMapping(value = "/add")
+	public String goToAddCarPage(Model model) {
 
+		model.addAttribute("car", new Car());
+		return "secured_page/carForm";
+	}
+
+	/**
+	 * Handles the post request from the Secured Car Form for adding new car
+	 * @param c
+	 * @param model
+	 * @return
+	 */
 	@PostMapping(value = "/add")
 	public String goToNewShowAllCar(@ModelAttribute Car c, Model model) {
 
@@ -133,23 +144,32 @@ public class AdminController_Car {
 		catch (Exception e) {
 
 			model.addAttribute("status",
-					"Failed to add Car: " + c.getRegistrationNumber() + ", Reason: Car Entry already exists!");
+					"Failed to add Car: " + c.getRegistrationNumber() + ", Reason: "+e.getMessage());
 			return "secured_page/carForm";
 		}
 
 	}
 
+	/**
+	 * Redirects to the Securey Query for Car entities page
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/query")
 	public String goToCarQuery(Model model) {
-		List<Car> list = new ArrayList<>();
-		list = carService.getAllCars();
-		model.addAttribute("carlist", list);
+		model.addAttribute("carlist", carService.getAllCars());
 		model.addAttribute("car", new Car());
 
 		return "secured_page/carQuery";
 
 	}
-
+	
+	/**
+	 * Handles the post requests from the Car query form/row
+	 * @param c
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/find")
 	public String findCar(@ModelAttribute Car c, Model model) {
 
@@ -171,32 +191,51 @@ public class AdminController_Car {
 		return "secured_page/carList";
 	}
 	
-	
+	/**
+	 * Redirects to the Import CSV Page
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/csvFileTocar")
 	public String goToCSVReaderPage(Model model) {
-		
 		
 		model.addAttribute("textDto", new TextDto());
 		return "secured_page/importCarCsv";
 	}
 	
+	/** 
+	 * Handles the post request from the Import CSV Page
+	 * When using the paste bin or textarea
+	 * 
+	 */
 	@PostMapping("/readTextarea")
 	public String readTextareaToCar(@ModelAttribute TextDto textDto, Model model) {
 		
 		String[] lines = textDto.getText().split("\n");
-		for(int i = 0; i< lines.length; i++) {
-			String[] args = lines[i].split(",");
-			Car c = new Car();
-			c.setRegistrationNumber(args[0]);
-			c.setModel(args[1]);
-			c.setPricePerDay(Double.parseDouble(args[2]));
-			
-			carService.saveCar(c);
+		try {
+			for (int i = 0; i < lines.length; i++) {
+				String[] args = lines[i].split(",");
+				Car c = new Car();
+				c.setRegistrationNumber(args[0]);
+				c.setModel(args[1]);
+				c.setPricePerDay(Double.parseDouble(args[2]));
+
+				carService.saveCar(c);
+			}
+		} catch (Exception e) {
+			model.addAttribute("status", e.getMessage());
 		}
-				
 		return showAllCar(model);
 	}
 	
+	/**
+	 * Handles the post request from the Import CSV page 
+	 * When a csv file is uploaded
+	 * 
+	 * @param file
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/readFileCarCsv")
 	public String readFileCarCsv(@RequestParam("file") MultipartFile file, Model model) {
 		List<Car> list;
@@ -206,7 +245,7 @@ public class AdminController_Car {
 				carService.saveCar(c);
 			}
 		
-		} catch (IOException e) {
+		} catch (Exception e) {
 			model.addAttribute("status", e.getLocalizedMessage());
 		}
 		
@@ -215,20 +254,5 @@ public class AdminController_Car {
 	}
 	
 	
-	@Profile(value = "dev")
-	@PostConstruct
-	private void populateCarDatabase() {
-		String fileName = "/Users/rishikesh.poorun/OneDrive - Accenture/Spring Boot Project/carrental/src/main/resources/files/carsDev.csv";
-		try {
-			List<Car> list = carService.readCSVToCar(fileName);
-			for (Car c : list) {
-				carService.saveCar(c);
-			}
-		} catch (FileNotFoundException e) {
-		} catch (IOException e) {
-		}
-
-	}
-
 	
 }

@@ -1,5 +1,5 @@
 <tr th:fragment="rental-query-row">
-        <form method="post" th:action="@{/secured/rental/find}" th:object="${rentDto}">
+        <form method="post" th:action="@{/secured/rental/find}" th:object="${rentalDto}">
           <td><input  style="width: 80px" type="text" class="form-control" th:field="*{rentalId}" id="rentalId" list="rentals" placeholder="ID" />
           		<datalist id="rentals">
           			<th:block th:each ="rent: ${rentalList}">
@@ -37,10 +37,10 @@
           		</td>
           		<td><input type="number" class="form-control" th:field="*{charges}" id="changes"  placeholder="Amount"  />
            		    		</td>
-          		 <td><input type="number" class="form-control" th:field="*{returned}" id="returned" list="retOpt" placeholder="Ruturned"  />
+          		 <td><input type="text" class="form-control" th:field="*{returned}" id="returned" list="retOpt" placeholder="Ruturned"  />
            		<datalist id="retOpt">
-          			<option value="0">False</option>
-          			<option value="1">True</option>
+          			<option value="False">False</option>
+          			<option value="True">True</option>
           			</th:block>
           		</datalist>
           		</td>

@@ -26,14 +26,18 @@ public class AdminController_car {
 	@PostMapping("/add")
 	public String createCar(@RequestBody Car car) {
 
-		boolean status = carService.saveCar(car);
+		try {
+			boolean status = carService.saveCar(car);
 
-		if (status) {
-			return "Car has been created!";
-		}
+			if (status) {
+				return "Car has been created!";
+			}
 
-		else {
+			else {
 
+				return "Failed to create the car!";
+			}
+		} catch (Exception e) {
 			return "Failed to create the car!";
 		}
 	}
@@ -43,7 +47,7 @@ public class AdminController_car {
 
 		boolean status;
 		try {
-			status = carService.updateCar(car);
+			status = carService.saveCar(car);
 
 			if (status) {
 				return "Car has been created!";
