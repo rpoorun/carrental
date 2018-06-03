@@ -247,4 +247,16 @@ public class RentalDto {
 	public void setCharges(Double charges) {
 		this.charges = charges;
 	}
+
+	@Override
+	public String toString() {
+		return "RentalDto [rentalService=" + rentalService + ", customerService=" + customerService + ", carService="
+				+ carService + ", rentalId=" + rentalId + ", carId=" + carId + ", car=" + car + ", user=" + user
+				+ ", specificDates=" + specificDates + ", userId=" + userId + ", startDate=" + startDate + ", endDate="
+				+ endDate + ", returned=" + returned + ", charges=" + charges + ", role=" + role + ", sex=" + sex
+				+ ", dob=" + dob + ", nationalId=" + nationalId + ", registrationNumber=" + registrationNumber
+				+ ", model=" + model + ", pricePerDay=" + pricePerDay + ", name=" + name + "]";
+	}
+	
+	
 }
