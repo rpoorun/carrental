@@ -3,6 +3,7 @@ package com.accenture.rishikeshpoorun.services;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -386,9 +387,8 @@ public class RentalService {
 	 * @return A list of all the Rental entities from the database
 	 */
 	public List<Rental> showAllRental() {
-		List<Rental> list = new ArrayList<>();
-
-		list = rentalRepo.findAll();
+		List<Rental> list = rentalRepo.findAll();
+		Collections.reverse(list);
 		return list;
 	}
 
@@ -555,6 +555,16 @@ public class RentalService {
 		}
 
 		return rentalList;
+	}
+
+	public List<Rental> rentalsOnStartDate(LocalDate startDate) {
+		
+		return rentalRepo.rentalsOnStartDate(startDate);
+	}
+	
+	
+	public List<Rental> rentalsOnEndDate(LocalDate endDate){
+		return rentalRepo.rentalsOnEndDate(endDate);
 	}
 
 }

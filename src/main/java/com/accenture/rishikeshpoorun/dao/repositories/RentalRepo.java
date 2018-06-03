@@ -78,5 +78,11 @@ public interface RentalRepo extends JpaRepository<Rental, Long> {
 	@Query("SELECT r FROM Rental r WHERE r.returned = false")
 	public List<Rental> findAllNotReturned();
 
+	@Query("SELECT r FROM Rental r WHERE r.startDate=:startDate")
+	public List<Rental> rentalsOnStartDate(@Param("startDate")LocalDate startDate);
+	
+	@Query("SELECT r FROM Rental r WHERE r.endDate=:endDate")
+	public List<Rental> rentalsOnEndDate(@Param("endDate") LocalDate endDate);
+
 
 }

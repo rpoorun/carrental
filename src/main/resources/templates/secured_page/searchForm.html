@@ -77,12 +77,12 @@
         
      	<div class="form-group">
             <label for="startDate">Rent Start Date: </label>
-            <input type="date" class="form-control" th:field="*{startDate}" th:value="*{startDate}"  onkeyup="specificDatesCheck()" />
+            <input type="date" class="form-control" th:field="*{startDate}" th:value="*{startDate}"  onchange="specificDatesCheck()" />
         </div>
         
         <div class="form-group">
             <label for="endDate">Rent End Date: </label>
-            <input type="date" class="form-control" th:field="*{endDate}" th:value="*{endDate}" onkeyup="specificDatesCheck()" />
+            <input type="date" class="form-control" th:field="*{endDate}" th:value="*{endDate}" onchange="specificDatesCheck()" />
         </div>
      	
      	

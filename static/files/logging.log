@@ -35,3 +35,6 @@
 2018-06-03 00:11:21 INFO  CustomerService:76 - User updated!
 2018-06-03 13:03:24 INFO  CustomerService:61 - User updated!
 2018-06-03 15:36:09 ERROR CustomerService:196 - Cannot find customer by national id!
+2018-06-03 21:21:52 INFO  CustomerService:61 - User updated!
+2018-06-03 21:22:14 INFO  CustomerService:61 - User updated!
+2018-06-03 22:44:53 INFO  CustomerService:61 - User updated!
