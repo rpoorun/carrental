@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.accenture.rishikeshpoorun.dao.entities.Rental;
 import com.accenture.rishikeshpoorun.dto.RentalDto;
 import com.accenture.rishikeshpoorun.exceptions.CarNotFoundException;
+import com.accenture.rishikeshpoorun.exceptions.CustomerNotFoundException;
 import com.accenture.rishikeshpoorun.exceptions.RentalEntryNotFoundException;
 
 @Controller
@@ -199,14 +200,15 @@ public class AdminController_Rental extends FrontController{
 	 * @param rentalId
 	 * @param model
 	 * @return
+	 * @throws CustomerNotFoundException 
 	 */
 	@GetMapping("/read/{rentalId}")
-	public String goToRentalProfilePage(@PathVariable("rentalId") Long rentalId, Model model) {
+	public String goToRentalProfilePage(@PathVariable("rentalId") Long rentalId, Model model) throws CustomerNotFoundException {
 		Rental r = rentalService.findByRentalId(rentalId);
 		model.addAttribute("rentalList", rentalService.allRentalByUserId(r.getUser().getUserId()));
 		model.addAttribute("rent", r);
 		model.addAttribute("carprofilelist", rentalService.allRentalByCarId(r.getCar().getCarId()));
-		model.addAttribute("user", rentalService.findByRentalId(rentalId).getUser());
+		model.addAttribute("user", customerService.findById(r.getUser().getUserId()));
 		return "secured_page/rentalProfile";
 	}
 }
