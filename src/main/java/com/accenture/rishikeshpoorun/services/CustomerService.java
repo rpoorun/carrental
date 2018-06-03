@@ -46,28 +46,22 @@ public class CustomerService {
 		User fetch = userRepo.findByNationalId(dto.getNationalId());
 
 		if (fetch == null) {
-			User u = new User();
-			u.setName(dto.getName());
-			u.setNationalId(dto.getNationalId());
-			u.setSex(dto.getSex());
-			u.setPassword(encoder.encode(dto.getPassword()));
-			u.setRole(dto.getRole());
-			u.setDob(dto.getDob());
-			u.setRentals(dto.getRentals());
-			u.setUserDeleted(false);
-			userRepo.save(u);
+
+			String rawPassword = dto.getPassword();
+			dto.setPassword(encoder.encode(rawPassword));
+			userRepo.save(dto);
 			logger.info("Created new User!");
 			return true;
-		}
-		else if(fetch !=null) {
-			dto.setPassword(encoder.encode(dto.getPassword()));
-			userRepo.save(dto);
+		} else {
+			fetch.setDob(dto.getDob());
+			fetch.setName(dto.getName());
+			fetch.setRole(dto.getRole());
+			fetch.setSex(dto.getSex());
+			userRepo.save(fetch);
 			logger.info("User updated!");
 			return true;
-			
-		}
 
-		return false;
+		}
 
 	}
 
@@ -172,6 +166,7 @@ public class CustomerService {
 
 	/**
 	 * Fetch the list of user by the given name
+	 * 
 	 * @param name
 	 * @return
 	 * @throws CustomerNotFoundException
@@ -264,53 +259,48 @@ public class CustomerService {
 	 * @param dto
 	 * @param model
 	 * @return
-	 * @throws CustomerNotFoundException 
+	 * @throws CustomerNotFoundException
 	 */
 	public List<User> processUserQuery(User dto, Model model) throws CustomerNotFoundException {
 		List<User> fetch = getAllCustomer();
 		List<User> list = new ArrayList<>();
 
 		try {
-		if (!dto.getNationalId().equalsIgnoreCase("")) {
-			list.add(findByNationalId(dto.getNationalId()));
-		}
-		} catch(Exception e) {
-			
+			if (!dto.getNationalId().equalsIgnoreCase("")) {
+				list.add(findByNationalId(dto.getNationalId()));
+			}
+		} catch (Exception e) {
+
 		}
 		try {
 			if (dto.getSex().equalsIgnoreCase("")) {
 				list = filterGender(dto.getSex(), fetch);
 				fetch = list;
 			}
-		}
-		catch(Exception e) {
-			
+		} catch (Exception e) {
+
 		}
 		if (!dto.getName().equalsIgnoreCase("")) {
 			list = filterName(dto.getName(), fetch);
 			fetch = list;
 		}
-		
+
 		try {
 			if (dto.getDob().isSupported(ChronoUnit.DAYS)) {
 				list = filterDob(dto.getDob(), fetch);
 				fetch = list;
 			}
+		} catch (Exception e) {
+
 		}
-		catch(Exception e) {
-			
-		}
-		
+
 		try {
 			if (!dto.getRole().equalsIgnoreCase("")) {
 				list = filterRole(dto.getRole(), fetch);
 			}
+		} catch (Exception e) {
+
 		}
-		catch(Exception e) {
-			
-		}
-		
-		
 
 		return list;
 	}

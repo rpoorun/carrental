@@ -31,12 +31,12 @@
         
          <div class="form-group">
             <label for="nationalId">National ID: </label>
-            <input type="text" class="form-control" th:field="*{nationalId}" id="nationalId" placeholder="User National ID" th:readonly="${mode=='Update'}" />
+            <input type="text" class="form-control" th:field="*{nationalId}" th:value="*{nationalId}"/>
         </div>
         
         <div class="form-group">
             <label for="name">Name: </label>
-            <input type="text" class="form-control" th:field="*{name}"  id="name" placeholder="User Name" />
+            <input type="text" class="form-control" th:field="*{name}"  th:value="*{name}"/>
         </div>
         
         <!-- <div class="form-group">
@@ -55,11 +55,11 @@
         
         <div class="form-group">
             <label for="registrationNumber">Registration Number: </label>
-            <input type="text" class="form-control" th:field="*{registrationNumber}" id="registrationNumber" placeholder="Car Registration Number" th:readonly="${mode == 'Update'}" />
+            <input type="text" class="form-control" th:field="*{registrationNumber}" th:value="*{registrationNumber}"/>
         </div>
         <div class="form-group">
             <label for="model">Model: </label>
-            <input type="text" class="form-control" th:field="*{model}"  id="model" placeholder="Car Model" th:readonly="${mode == 'Update'}"   />
+            <input type="text" class="form-control" th:field="*{model}" th:value="*{model}"/>
         </div>
         <!-- <div class="form-group">
             <label for="pricePerDay">Price per day:</label>
@@ -77,12 +77,12 @@
         
      	<div class="form-group">
             <label for="startDate">Rent Start Date: </label>
-            <input type="date" class="form-control" th:field="*{startDate}" th:value="*{startDate}"  id="dob" placeholder="Starting Date" onkeyup="specificDatesCheck()" />
+            <input type="date" class="form-control" th:field="*{startDate}" th:value="*{startDate}"  onkeyup="specificDatesCheck()" />
         </div>
         
         <div class="form-group">
             <label for="endDate">Rent End Date: </label>
-            <input type="date" class="form-control" th:field="*{endDate}" th:value="*{endDate}"  id="dob" placeholder="End Date" onkeyup="specificDatesCheck()" />
+            <input type="date" class="form-control" th:field="*{endDate}" th:value="*{endDate}" onkeyup="specificDatesCheck()" />
         </div>
      	
      	
