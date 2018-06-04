@@ -66,7 +66,7 @@ public class ReadFileUtil {
 		return list;
 	}
 
-	public static List<Car> importCSV(InputStream file) throws NumberFormatException, IOException {
+	public static List<Car> importCarCSV(InputStream file) throws NumberFormatException, IOException {
 		Reader fr = new InputStreamReader(file);
 		BufferedReader br = new BufferedReader(fr);
 
@@ -78,6 +78,29 @@ public class ReadFileUtil {
 			e.setRegistrationNumber(args[0]);
 			e.setModel(args[1]);
 			e.setPricePerDay(Double.parseDouble(args[2]));
+			list.add(e);
+		}
+		br.close();
+		fr.close();
+		
+		return list;
+	}
+	
+	public static List<User> importUserCSV(InputStream file) throws NumberFormatException, IOException {
+		Reader fr = new InputStreamReader(file);
+		BufferedReader br = new BufferedReader(fr);
+
+		List<User> list = new ArrayList<>();
+		String str = null;
+		while ((str = br.readLine()) != null) {
+			String[] args = str.split(",");
+			User e = new User();
+			e.setNationalId(args[0]);
+			e.setPassword(args[1]);
+			e.setName(args[2]);
+			e.setRole((!args[3].contains("ROLE_"))? ("ROLE_"+args[3]):args[3]);
+			e.setSex(args[4]);
+			e.setDob(LocalDate.parse(args[5]));
 			list.add(e);
 		}
 		br.close();

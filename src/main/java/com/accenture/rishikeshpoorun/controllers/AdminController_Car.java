@@ -240,7 +240,7 @@ public class AdminController_Car extends FrontController{
 	public String readFileCarCsv(@RequestParam("file") MultipartFile file, Model model) {
 		List<Car> list;
 		try {
-			list = ReadFileUtil.importCSV(file.getInputStream());
+			list = ReadFileUtil.importCarCSV(file.getInputStream());
 			for (Car c : list) {
 				carService.saveCar(c);
 			}

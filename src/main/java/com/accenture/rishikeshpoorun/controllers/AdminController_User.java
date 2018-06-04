@@ -9,9 +9,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.accenture.rishikeshpoorun.dao.entities.Car;
 import com.accenture.rishikeshpoorun.dao.entities.User;
 import com.accenture.rishikeshpoorun.dto.RentalDto;
+import com.accenture.rishikeshpoorun.dto.TextDto;
 import com.accenture.rishikeshpoorun.exceptions.CustomerNotFoundException;
+import com.accenture.rishikeshpoorun.util.ReadFileUtil;
 
 @Controller
 @RequestMapping("/secured/user")
@@ -177,6 +183,42 @@ public class AdminController_User extends FrontController{
 		
 	}
 	
+	/**
+	 * Redirects to the Import CSV Page
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/csvFileToUser")
+	public String goToCSVReaderPage(Model model) {
+		
+		model.addAttribute("textDto", new TextDto());
+		return "secured_page/importUserCsv";
+	}
+	
+	/**
+	 * Handles the post request from the Import CSV page 
+	 * When a csv file is uploaded
+	 * 
+	 * @param file
+	 * @param model
+	 * @return
+	 */
+	@PostMapping("/readFileUserCsv")
+	public String readFileCarCsv(@RequestParam("file") MultipartFile file, Model model) {
+		List<User> list;
+		try {
+			list = ReadFileUtil.importUserCSV(file.getInputStream());
+			for (User u: list) {
+				customerService.saveCustomer(u);
+			}
+		
+		} catch (Exception e) {
+			model.addAttribute("status", e.getLocalizedMessage());
+		}
+		
+		
+		return showAllUsers(model);
+	}
 	
 	
 }

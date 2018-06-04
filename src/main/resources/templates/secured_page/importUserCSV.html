@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Include header, including javascript and CSS files. -->
+    <div th:replace="fragments/header :: header-head"/>
+    
+   
+    
+</head>
+<body>
+<!-- Include navigation bar in the page. -->
+<div th:replace="fragments/header :: header-nav"/>
+
+<div class="container mt-4">
+ 
+    <h3 class="text-primary">Car Interface</h3>
+    
+    
+     <!-- Marketing Icons Section -->
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header">Import CSV File</h4>
+            <div class="card-body">
+              <p class="card-text">
+              <b>Ensure CSV File is in following format:</b><br/>
+              <i>#nationalId,#password,#name,#role,#gender,#dob</i>
+              </p>
+            </div>
+            <div class="card-footer">
+            <form method="post" th:action="@{/secured/user/readFileUserCsv}" enctype="multipart/form-data">
+            <label class="btn btn-success">Browse
+            <input type="file" name="file" class="btn btn-default btn-file" hidden />
+            </label>
+              <button type="submit" class="btn btn-info" >Read File</button>
+              </form>
+            </div>
+            
+            
+          </div>
+        </div>
+        <div class="col-lg-4 mb-4" style="display:none">
+          <div class="card h-100">
+            <h4 class="card-header">Paste Bin</h4>
+            <form method="post"  th:action="@{/secured/car/readTextarea}" th:object="${textDto}">
+            <div class="card-body">
+              <p class="card-text">
+            <b>Paste the CSV text having the following format:</b><br/>
+              <i>#registrationNumber, #model, #pricePerDay</i>
+              <textarea id="textarea" th:field="*{text}" name="csv" cols="40"></textarea>
+              </p>
+              
+            </div>
+            <div class="card-footer">
+              <button type="submit" class="btn btn-info">Read Text</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      
+      </div>
+    
+    
+    
+ <!-- Footer -->
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

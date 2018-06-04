@@ -1,5 +1,6 @@
 package com.accenture.rishikeshpoorun.util;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +16,12 @@ import com.accenture.rishikeshpoorun.services.CustomerService;
 public class PopulateDatabase {
 
 	private static CarRepo carRepo;
-	private static CustomerService userService;
+	private static CustomerService customerService;
 
 	@Autowired
-	public PopulateDatabase(CarRepo carRepo, CustomerService userService) {
+	public PopulateDatabase(CarRepo carRepo, CustomerService customerService) {
 		PopulateDatabase.carRepo = carRepo;
-		PopulateDatabase.userService = userService;
+		PopulateDatabase.customerService = customerService;
 	}
 
 	public static void populateCarDatabase() {
@@ -83,40 +84,15 @@ public class PopulateDatabase {
 		// } catch (IOException e) {
 		// }
 
-		User poorun = new User();
-		poorun.setName("poorun");
-		poorun.setNationalId("poorun");
-		poorun.setPassword("poorun");
-		poorun.setRole("ROLE_ADMIN");
-		userService.saveCustomer(poorun);
-
-		User admin = new User();
-		admin.setName("admin");
-		admin.setNationalId("admin");
-		admin.setPassword("1234");
-		admin.setRole("ROLE_ADMIN");
-		userService.saveCustomer(admin);
-
-		User customer1 = new User();
-		customer1.setName("customer");
-		customer1.setNationalId("customer");
-		customer1.setPassword("1234");
-		customer1.setRole("ROLE_CUSTOMER");
-		userService.saveCustomer(customer1);
-
-		User john = new User();
-		john.setName("john");
-		john.setNationalId("john");
-		john.setPassword("1234");
-		john.setRole("ROLE_CUSTOMER");
-		userService.saveCustomer(john);
-
-		User axelle = new User();
-		axelle.setName("Axelle");
-		axelle.setNationalId("Axelle");
-		axelle.setPassword("1234");
-		axelle.setRole("ROLE_CUSTOMER");
-		userService.saveCustomer(axelle);
+		List<User> list = new ArrayList<>();
+		list.add(new User("poorun", "poorun", "poorun", "ROLE_ADMIN", "Male", LocalDate.parse("1991-09-20")));
+		list.add(new User("admin", "1234","admin", "ROLE_ADMIN","Male",LocalDate.parse("1993-12-09")));
+		list.add(new User("customer", "1234", "customer", "ROLE_CUSTOMER", "MALE", LocalDate.parse("1994-04-12")));
+		list.add(new User("john", "1234", "john", "ROLE_CUSTOMER", "MALE", LocalDate.parse("1992-04-20")));
+		list.add(new User("axelle", "1234", "axelle", "ROLE_CUSTOMER", "FEMALE", LocalDate.parse("1991-09-24")));
+		for(User u : list) {
+			customerService.saveCustomer(u);
+		}
 
 	}
 
