@@ -108,6 +108,10 @@ public class SearchQueryController extends FrontController {
 			model.addAttribute("status", "No Results Found!");
 			return "secured_page/searchForm";
 		}
+		else if (fetchuser.isEmpty() && fetchrental.isEmpty() && fetchcar.isEmpty()) {
+			model.addAttribute("status", "No Results Found!");
+			return "secured_page/searchForm";
+		}
 					
 		model.addAttribute("rentalList", fetchrental);
 		model.addAttribute("carlist", fetchcar);
