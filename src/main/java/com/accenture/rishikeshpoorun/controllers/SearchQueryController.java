@@ -48,6 +48,30 @@ public class SearchQueryController extends FrontController {
 		
 		try {
 			
+			//if specifiDates is set true query to matching dates, else in between
+			if(((dto.getStartDate() != null) && ((dto.getEndDate() != null)))){ System.out.println("Inside dates filter");
+				if(dto.isSpecificDates()) {
+					//updates the fetch rental datalist for only entries matching the dates
+					fetchrental = rentalService.rentedOnDates(dto.getStartDate(), dto.getEndDate());
+				}
+				else {
+					//updates the fetch rental datalist for only entries inbetween the two dates
+					fetchrental = rentalService.rentedBetweenPeriod(dto.getStartDate(), dto.getEndDate());
+				}
+				
+				//triggers the filter by dates
+				queryFilterByDates(dto);
+				
+			}
+			else if(dto.getStartDate() != null){ System.out.println("Inside sdate filter");
+				//updates the fetch rental datalist for only the records set on the startDate
+				fetchrental = rentalService.rentalsOnStartDate(dto.getStartDate());
+				
+			}
+			else if(dto.getEndDate() != null) { System.out.println("Inside edate filter");
+				fetchrental = rentalService.rentalsOnEndDate(dto.getEndDate());
+			}
+			
 			//if the name field is not empty
 			if((dto.getName().length() >=1)) { System.out.println("inside the trigger by name");
 				//triggers the filter by name 
@@ -72,29 +96,7 @@ public class SearchQueryController extends FrontController {
 				queryFilterByModel(dto);
 			}
 			
-//			//if specifiDates is set true query to matching dates, else in between
-//			if(((dto.getStartDate().toString().length() >=1) && ((dto.getEndDate().toString().length()>=1)))){ System.out.println("Inside dates filter");
-//				if(dto.isSpecificDates()) {
-//					//updates the fetch rental datalist for only entries matching the dates
-////					fetchrental = rentalService.rentedOnDates(dto.getStartDate(), dto.getEndDate());
-//				}
-//				else {
-//					//updates the fetch rental datalist for only entries inbetween the two dates
-////					fetchrental = rentalService.rentedBetweenPeriod(dto.getStartDate(), dto.getEndDate());
-//				}
-//				
-//				//triggers the filter by dates
-////				queryFilterByDates(dto);
-//				
-//			}
-//			else if(dto.getStartDate().toString().length()>=1){ System.out.println("Inside sdate filter");
-//				//updates the fetch rental datalist for only the records set on the startDate
-////				fetchrental = rentalService.rentalsOnStartDate(dto.getStartDate());
-//				
-//			}
-//			else if(dto.getEndDate().toString().length()>=1) { System.out.println("Inside edate filter");
-////				fetchrental = rentalService.rentalsOnEndDate(dto.getEndDate());
-//			}
+			
 			
 		}
 		
