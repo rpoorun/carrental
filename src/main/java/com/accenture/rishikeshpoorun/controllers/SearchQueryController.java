@@ -108,7 +108,7 @@ public class SearchQueryController extends FrontController {
 			model.addAttribute("status", "No Results Found!");
 			return "secured_page/searchForm";
 		}
-			
+					
 		model.addAttribute("rentalList", fetchrental);
 		model.addAttribute("carlist", fetchcar);
 		model.addAttribute("userlist",fetchuser);
@@ -131,15 +131,17 @@ public class SearchQueryController extends FrontController {
 			}
 		}
 		// if no records were stored in the dummy lists, set flag noResultFound true
-		if (carlist.isEmpty() && userlist.isEmpty()) {
+		if (carlist.isEmpty() && userlist.isEmpty() && rentalList.isEmpty()) {
 			noResultFound = true;
 		} else {
 			noResultFound = false;
 		}
 		// update the datalists with the filters one for next filter
+		fetchrental = rentalList;
 		fetchcar = carlist;
 		fetchuser = userlist;
 		// reset the dummy list
+		rentalList = new ArrayList<>();
 		userlist = new ArrayList<>();
 		carlist = new ArrayList<>();
 	}
